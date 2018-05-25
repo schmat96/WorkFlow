@@ -31,6 +31,10 @@ public class  MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bar bar = (Bar)findViewById(R.id.bar);
+        bar.setValue(60);
+
+
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
