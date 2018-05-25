@@ -1,5 +1,6 @@
 package net.ict.workflow.workflow;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -7,9 +8,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import net.ict.workflow.workflow.model.User;
+
+import java.sql.Date;
+import java.time.LocalDate;
+
 
 public class  MainActivity extends AppCompatActivity {
 
+    User user;
+    Boolean loggedIn = false;
+    Menu headerMenu;
     Toolbar toolbar;
 
     @Override
@@ -21,14 +30,30 @@ public class  MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.user = new User();
+        if (this.user.getID()!=0) {
+            loggedIn = true;
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        headerMenu = menu;
+        if (loggedIn) {
+            headerMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.logged));
+        }
+
         return true;
     }
 
@@ -42,6 +67,10 @@ public class  MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_login) {
             Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
+            loggedIn = true;
+            if (loggedIn) {
+                headerMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.logged));
+            }
             return true;
         }
 
