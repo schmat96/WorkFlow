@@ -32,7 +32,13 @@ public class  MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bar bar = (Bar)findViewById(R.id.bar);
-        bar.setValue(60);
+        bar.setValue(8f, 4f);
+
+        Bar bar2 = (Bar)findViewById(R.id.bar2);
+        bar2.setValue(8f, 15f);
+
+        Bar bar3 = (Bar)findViewById(R.id.bar3);
+        bar3.setValue(8f, 65f);
 
 
 
