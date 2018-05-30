@@ -30,8 +30,6 @@ public class Bar extends LinearLayout {
 
     }
 
-
-
     /**
      *
      * @param sum max value for the bar. F.E. 8.24 hours.
