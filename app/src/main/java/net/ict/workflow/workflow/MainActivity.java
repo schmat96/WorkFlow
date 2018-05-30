@@ -1,8 +1,8 @@
 package net.ict.workflow.workflow;
 
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +13,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.ict.workflow.workflow.model.User;
-
-import java.sql.Date;
-import java.time.LocalDate;
 
 
 public class  MainActivity extends AppCompatActivity {
@@ -35,23 +32,15 @@ public class  MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Bar bar = (Bar)findViewById(R.id.bar);
-        bar.setValue(8f, 4f);
-
-        Bar bar2 = (Bar)findViewById(R.id.bar2);
-        bar2.setValue(8f, 15f);
-
-        Bar bar3 = (Bar)findViewById(R.id.bar3);
-        bar3.setValue(8f, 65f);
-
-
-
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         CardView cardView = findViewById(R.id.card_view);
 
+
+
         //setCardSwiper(cardView);
         setRecycleView();
+
     }
 
     @Override
@@ -61,6 +50,16 @@ public class  MainActivity extends AppCompatActivity {
         if (this.user.getID()!=0) {
             loggedIn = true;
         }
+    }
+
+    @Override
+    protected  void onResume() {
+        super.onResume();
+        startNFCSensor();
+    }
+
+    private void startNFCSensor() {
+
     }
 
     @Override

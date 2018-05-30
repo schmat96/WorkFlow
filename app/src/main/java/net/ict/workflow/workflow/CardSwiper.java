@@ -1,6 +1,5 @@
 package net.ict.workflow.workflow;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
