@@ -1,18 +1,22 @@
 package net.ict.workflow.workflow;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 public class CardSwiper implements View.OnTouchListener {
 
 
     private final GestureDetector gestureDetector;
+    private Context context;
 
     public CardSwiper(Context context){
         gestureDetector = new GestureDetector(context, new GestureListener());
+        this.context = context;
     }
 
     @Override
@@ -62,9 +66,11 @@ public class CardSwiper implements View.OnTouchListener {
         }
 
         public void onSwipeRight() {
+            Toast.makeText(context, "right", Toast.LENGTH_SHORT);
         }
 
         public void onSwipeLeft() {
+            Toast.makeText(context, "left", Toast.LENGTH_SHORT);
         }
 
         public void onSwipeTop() {
