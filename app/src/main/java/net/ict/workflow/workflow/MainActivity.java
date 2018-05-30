@@ -1,6 +1,10 @@
 package net.ict.workflow.workflow;
 
+import android.content.Intent;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -10,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.ict.workflow.workflow.model.User;
@@ -49,6 +54,24 @@ public class  MainActivity extends AppCompatActivity {
         this.user = new User();
         if (this.user.getID()!=0) {
             loggedIn = true;
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent != null && NfcAdapter.ACTION_NDEF_DISCOVERED.equals(intent.getAction())) {
+            Parcelable[] rawMessages =
+                    intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
+            if (rawMessages != null) {
+                NdefMessage[] messages = new NdefMessage[rawMessages.length];
+                for (int i = 0; i < rawMessages.length; i++) {
+                    messages[i] = (NdefMessage) rawMessages[i];
+                    TextView hinweis = (TextView) findViewById(R.id.hinweis);
+                    hinweis.setText(messages[i].toString());
+                }
+
+            }
         }
     }
 
