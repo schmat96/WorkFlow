@@ -151,6 +151,7 @@ public class  MainActivity extends AppCompatActivity {
                 NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, id, payload);
                 NdefMessage message = new NdefMessage(new NdefRecord[]{record});
                 msg = new NdefMessage[] {message};
+                Log.e("Inside", msg.toString());
             }
             displayMessages(msg);
         }
@@ -326,9 +327,14 @@ public class  MainActivity extends AppCompatActivity {
             String string = record.str();
             builder.append(string).append("\n");
         }
-        TextView text = findViewById(R.id.hinweis);
-        text.setText(builder.toString());
-        Toast.makeText(this, "this was scanned", Toast.LENGTH_LONG);
+        //TextView text = findViewById(R.id.hinweis);
+        //text.setText(builder.toString());
+        //text.invalidate();
+        Intent intent = new Intent(getApplicationContext(), NfcDetails.class);
+        intent.putExtra("info", builder.toString());
+        startActivity(intent);
+        Log.e("finalMessage", builder.toString());
+        //Log.v("textView", text.getText().toString());
     }
 
     private void startNFCSensor(Activity activity, NfcAdapter adapter) {
