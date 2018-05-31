@@ -92,11 +92,11 @@ class SwipeController extends Callback {
                 swipeBack = event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP;
 
                 if (swipeBack) {
-                    if (dX < -300) {
-                        Log.d(TAG, "swiped left");
+                    if (dY < -50) {
+                        Log.d(TAG, "swiped down");
                         ca.swipeLeft();
-                    } else if (dX > 300) {
-                        Log.d(TAG, "swiped right");
+                    } else if (dY > 50) {
+                        Log.d(TAG, "swiped up");
                         ca.swipeRight();
                     }
                 }

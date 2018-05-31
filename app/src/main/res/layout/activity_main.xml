@@ -19,23 +19,18 @@
         android:weightSum="2">
 
         <LinearLayout
+            android:id="@+id/scanHinweis"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/color_change">
 
             <TextView
+                android:id="@+id/hinweis"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="NFC activated"
                 android:layout_gravity="center"
-                android:id="@+id/hinweis"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="NFC activated"
-                android:layout_gravity="center"
-                android:id="@+id/hinweis2"/>
+                android:text="NFC activated" />
 
             <Switch
                 android:id="@+id/nfcswitch"

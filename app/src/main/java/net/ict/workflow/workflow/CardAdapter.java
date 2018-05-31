@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
@@ -16,8 +17,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     public CardAdapter(Cards[] bars) {
         this.dataSet = bars;
-
-
     }
 
 
@@ -36,11 +35,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         Bar bar = holder.cardView.findViewById(R.id.bar);
         bar.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
 
-        Bar bar2 = holder.cardView.findViewById(R.id.bar2);
-        bar2.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
-
-        Bar bar3 = holder.cardView.findViewById(R.id.bar3);
-        bar3.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
+        TextView tv = holder.cardView.findViewById(R.id.scope);
+        tv.setText(dataSet[position].title());
 
 
     }
