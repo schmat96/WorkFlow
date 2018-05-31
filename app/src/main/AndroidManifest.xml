@@ -3,6 +3,7 @@
     package="net.ict.workflow.workflow">
 
     <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc" android:required="true"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,11 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <action android:name="android.nfc.action.TAG_DISCOVERED"/>
+                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+                <data android:mimeType="text/plain"/>
+                <data android:mimeType="image/*"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
