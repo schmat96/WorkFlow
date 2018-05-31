@@ -66,6 +66,7 @@ public class NFCReaderTask extends AsyncTask<Tag, Void, String> {
         if(result != null){
             TextView hinweis = activity.findViewById(R.id.hinweis);
             hinweis.setText("Read content: " + result);
+            hinweis.invalidate();
             Toast.makeText(activity, "Read content" + result, Toast.LENGTH_LONG);
         }
     }
