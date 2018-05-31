@@ -9,6 +9,17 @@ import android.view.ViewGroup;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
+    private Cards[] dataSet;
+
+    private int currentIndex = 0;
+
+
+    public CardAdapter(Cards[] bars) {
+        this.dataSet = bars;
+
+
+    }
+
 
 
     @Override
@@ -23,13 +34,23 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         //TODO bind params to cards
 
         Bar bar = holder.cardView.findViewById(R.id.bar);
-        bar.setValue(8f, 4f);
+        bar.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
 
         Bar bar2 = holder.cardView.findViewById(R.id.bar2);
-        bar2.setValue(8f, 15f);
+        bar2.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
 
         Bar bar3 = holder.cardView.findViewById(R.id.bar3);
-        bar3.setValue(8f, 65f);
+        bar3.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
+
+
+    }
+
+    public void swipeLeft() {
+        swipe(currentIndex+1);
+    }
+
+    public void swipeRight() {
+        swipe(currentIndex-1);
     }
 
 
@@ -45,6 +66,11 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 1;
+        return dataSet.length;
     }
+
+    private void swipe(int newIndex) {
+
+    }
+
 }

@@ -22,6 +22,12 @@ class SwipeController extends Callback {
 
     private Boolean swipeBack = false;
 
+    private CardAdapter ca;
+
+    public SwipeController(CardAdapter ca) {
+        this.ca = ca;
+    }
+
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
         return makeMovementFlags(0, LEFT | RIGHT);
@@ -88,8 +94,10 @@ class SwipeController extends Callback {
                 if (swipeBack) {
                     if (dX < -300) {
                         Log.d(TAG, "swiped left");
+                        ca.swipeLeft();
                     } else if (dX > 300) {
                         Log.d(TAG, "swiped right");
+                        ca.swipeRight();
                     }
                 }
                 return false;

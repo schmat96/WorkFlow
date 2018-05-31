@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -17,9 +17,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +36,11 @@ public class  MainActivity extends AppCompatActivity {
     Boolean loggedIn = false;
     Menu headerMenu;
     Toolbar toolbar;
+    private static String TAG = "MainActivity";
 
     private NfcAdapter nfcAdapter;
+    private Switch nfcswitch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,11 @@ public class  MainActivity extends AppCompatActivity {
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        RecyclerView myList = (RecyclerView) findViewById(R.id.card_view_container);
+        myList.setLayoutManager(layoutManager);
         CardView cardView = findViewById(R.id.card_view);
 
 
@@ -56,7 +67,15 @@ public class  MainActivity extends AppCompatActivity {
         setRecycleView();
 
         setNFCAdapter();
-        handleNFCIntent(getIntent());
+        if (nfcAdapter!=null) {
+            handleNFCIntent(getIntent());
+        }
+
+        nfcswitch = (Switch) findViewById(R.id.nfcswitch);
+        nfcswitch.setOnCheckedChangeListener(new switchListener());
+
+
+
     }
 
     @Override
@@ -78,19 +97,25 @@ public class  MainActivity extends AppCompatActivity {
     @Override
     protected  void onResume() {
         super.onResume();
-        startNFCSensor(this, nfcAdapter);
+        if (nfcAdapter!=null) {
+            startNFCSensor(this, nfcAdapter);
+        }
+
     }
 
     @Override
     protected void onPause() {
-        stopNFCSensor(this, nfcAdapter);
+        if (nfcAdapter!=null) {
+            stopNFCSensor(this, nfcAdapter);
+        }
         super.onPause();
     }
 
-    private void setNFCAdapter(){
+    public void setNFCAdapter(){
+        Log.d("NFCDemo", "Checking for NFC activated");
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        TextView textView = (TextView) findViewById(R.id.hinweis);
         if(nfcAdapter != null){
-            TextView textView = findViewById(R.id.hinweis);
             if(!nfcAdapter.isEnabled()){
                 textView.setText("NFC is disabled.");
                 Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG);
@@ -100,6 +125,7 @@ public class  MainActivity extends AppCompatActivity {
             }
             handleNFCIntent(getIntent());
         } else {
+            textView.setText("This device doesn't support NFC.");
             Toast.makeText(this, "This device doesn't support NFC.", Toast.LENGTH_LONG);
         }
     }
@@ -167,14 +193,12 @@ public class  MainActivity extends AppCompatActivity {
         } catch (IntentFilter.MalformedMimeTypeException e) {
             throw new RuntimeException("Check your mime type.");
         }
-
         adapter.enableForegroundDispatch(activity, pendingIntent, filters, techList);
     }
 
     private void stopNFCSensor(Activity activity, NfcAdapter adapter){
         adapter.disableForegroundDispatch(activity);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -203,6 +227,11 @@ public class  MainActivity extends AppCompatActivity {
                 headerMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.logged));
             }
             return true;
+        } else if (id == R.id.action_settings) {
+            final Intent intent = new Intent(NfcAdapter.ACTION_NDEF_DISCOVERED);
+            intent.putExtra(NfcAdapter.EXTRA_NDEF_MESSAGES, "Custom Messages");
+            startActivity(intent);
+
         }
 
         if (id == R.id.action_settings) {
@@ -217,14 +246,37 @@ public class  MainActivity extends AppCompatActivity {
     private void setRecycleView(){
         RecyclerView recyclerView = findViewById(R.id.card_view_container);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        CardAdapter cardAdapter = new CardAdapter();
+        int anzahl = 10;
+        Cards[] cards = new Cards[anzahl];
+        for (int i=0;i<anzahl;i++) {
+            cards[i] = new Cards((i+4)/3f, (i+1)/3);
+        }
+
+        CardAdapter cardAdapter = new CardAdapter(cards);
         recyclerView.setAdapter(cardAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-
-        SwipeController swipeController = new SwipeController();
+        SwipeController swipeController = new SwipeController(cardAdapter);
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
         itemTouchhelper.attachToRecyclerView(recyclerView);
+
     }
+
+    private class switchListener implements CompoundButton.OnCheckedChangeListener {
+
+        
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                Intent intent = new Intent(Settings.ACTION_NFC_SETTINGS);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+                startActivity(intent);
+            }
+        }
+
+
+    }
+
 
 }
