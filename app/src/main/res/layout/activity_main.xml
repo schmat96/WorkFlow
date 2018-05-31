@@ -30,6 +30,13 @@
                 android:layout_gravity="center"
                 android:id="@+id/hinweis"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NFC activated"
+                android:layout_gravity="center"
+                android:id="@+id/hinweis2"/>
+
             <Switch
                 android:id="@+id/nfcswitch"
                 android:layout_width="wrap_content"
