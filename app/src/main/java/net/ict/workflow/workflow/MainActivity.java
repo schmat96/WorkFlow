@@ -10,10 +10,9 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.MifareClassic;
 import android.nfc.tech.MifareUltralight;
-import android.nfc.tech.Ndef;
 import android.os.Build;
-import android.nfc.tech.NfcA;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,8 +22,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.Menu;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,10 +30,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.ict.workflow.workflow.model.NFCReaderTask;
-import net.ict.workflow.workflow.record.ParsedNdefRecord;
 import net.ict.workflow.workflow.model.User;
 import net.ict.workflow.workflow.record.NdefMessageParser;
+import net.ict.workflow.workflow.record.ParsedNdefRecord;
 
 import java.util.List;
 
@@ -83,12 +79,11 @@ public class  MainActivity extends AppCompatActivity {
         }
     }
 
-        nfcswitch = (Switch) findViewById(R.id.nfcswitch);
-        nfcswitch.setOnCheckedChangeListener(new switchListener());
 
 
 
-    }
+
+
 
     @Override
     protected void onStart() {
@@ -117,9 +112,7 @@ public class  MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        if (nfcAdapter!=null) {
-            stopNFCSensor(this, nfcAdapter);
-        }
+        if (nfcAdapter!=null) {stopNFCSensor(this, nfcAdapter);}
         super.onPause();
     }
 
@@ -280,6 +273,8 @@ public class  MainActivity extends AppCompatActivity {
         }
         return sb.toString();
     }
+
+
 
     private String toReversedHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
