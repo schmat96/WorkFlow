@@ -12,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -122,9 +123,6 @@ public class  MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setCardSwiper(CardView cardView){
-        cardView.setOnTouchListener(new CardSwiper(this));
-    }
 
     private void setRecycleView(){
         RecyclerView recyclerView = findViewById(R.id.card_view_container);
@@ -132,6 +130,11 @@ public class  MainActivity extends AppCompatActivity {
         CardAdapter cardAdapter = new CardAdapter();
         recyclerView.setAdapter(cardAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+
+        SwipeController swipeController = new SwipeController();
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
     }
 
 }
