@@ -1,7 +1,11 @@
 package net.ict.workflow.workflow;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.PendingIntent;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.TransitionDrawable;
@@ -21,14 +25,17 @@ import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import net.ict.workflow.workflow.model.User;
@@ -36,6 +43,7 @@ import net.ict.workflow.workflow.record.NdefMessageParser;
 import net.ict.workflow.workflow.record.ParsedNdefRecord;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -262,9 +270,18 @@ public class  MainActivity extends AppCompatActivity {
             LinearLayout ll = (LinearLayout) findViewById(R.id.scanHinweis);
             TransitionDrawable transition = (TransitionDrawable) ll.getBackground();
             transition.startTransition(1200);
-            user.addBadgeTime(LocalDateTime.now());
+
+            DialogFragment newFragmentDate = new DatePickerFragment();
+            newFragmentDate.show(this.getFragmentManager(), "datePicker");
+
+            DialogFragment newFragment = new TimePickerFragment();
+            newFragment.show(this.getFragmentManager(), "timePicker");
+
+
+            //newFragment.show(this.getSupportFragmentManager(), "timePicker");
+            //user.addBadgeTime(LocalDateTime.now());
             // TODO get current position of recyclerView
-            user.reloadCard(0, LocalDateTime.now(), this);
+            //user.reloadCard(0, LocalDateTime.now(), this);
 
         }
         return super.onOptionsItemSelected(item);
@@ -299,9 +316,46 @@ public class  MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-
-
     }
 
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+        }
+    }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
+        }
+    }
 
 }

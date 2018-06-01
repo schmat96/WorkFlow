@@ -17,7 +17,7 @@ public class BadgeTimes {
     }
 
     public void init() {
-        for (int i = 0; i<30000;i++) {
+        for (int i = 0; i<300;i++) {
             LocalDateTime ldt = LocalDateTime.now().plusHours(i+10);
             times.add(ldt);
         }
