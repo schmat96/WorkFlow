@@ -3,4 +3,5 @@
     <!-- The drawables used here can be solid colors, gradients, shapes, images, etc. -->
     <item android:drawable="@android:color/holo_orange_dark" />
     <item android:drawable="@android:color/holo_green_dark" />
+    <item android:drawable="@android:color/holo_orange_dark" />
 </transition>

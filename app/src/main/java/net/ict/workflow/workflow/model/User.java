@@ -1,11 +1,16 @@
 package net.ict.workflow.workflow.model;
 
 import net.ict.workflow.workflow.Cards;
+import net.ict.workflow.workflow.MainActivity;
+import net.ict.workflow.workflow.R;
+
+import java.time.LocalDateTime;
 
 public class User {
     private Integer id = 0;
     private BadgeTimes badgeTimes;
     private Cards[] cards;
+
 
     public User() {
         //#TODO checken ob der user schonmal eingeloggt war auf diesem Natel, wenn ja id = userID;
@@ -22,13 +27,27 @@ public class User {
     }
 
 
-    public Cards[] getCards() {
+    public Cards[] getCards(MainActivity ma, LocalDateTime date) {
+        //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
         if (cards == null) {
             cards = new Cards[3];
-            cards[0] = new Cards(8.24f, 5.02f, "Tag");
-            cards[1] = new Cards(54.24f, 29.02f, "Woche");
-            cards[2] = new Cards(200.05f, 266.05f, "Monat");
+            cards[0] = new Cards(8.24f, badgeTimes.getBadgedTimeDay(date), ma.getString(R.string.Day));
+            cards[1] = new Cards(54.24f, badgeTimes.getBadgedTimeWeek(date), ma.getString(R.string.Week));
+            cards[2] = new Cards(200.05f, badgeTimes.getBadgedTimeMonth(date), ma.getString(R.string.Month));
         }
         return cards;
+    }
+
+    public void reloadCard(int pos, LocalDateTime date, MainActivity ma) {
+        // TODO Position wird im Moment noch nicht bearbeitet. Die Idee ist das hier nur die Karte bearbeitet wird, welche mit der Pos reinkommt --> enums!
+        // TODO MAX Wert muss hier auch noch programmatically gesetzt werden.
+        //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
+        cards[0] = new Cards(8.24f, badgeTimes.getBadgedTimeDay(date), ma.getString(R.string.Day));
+        cards[1] = new Cards(54.24f, badgeTimes.getBadgedTimeWeek(date), ma.getString(R.string.Day));
+        cards[2] = new Cards(200.05f, badgeTimes.getBadgedTimeMonth(date), ma.getString(R.string.Month));
+    }
+
+    public void addBadgeTime(LocalDateTime now) {
+        badgeTimes.addBadgeTime(now);
     }
 }

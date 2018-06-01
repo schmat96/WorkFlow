@@ -1,17 +1,10 @@
 package net.ict.workflow.workflow.model;
 
-import android.util.Log;
-
-import java.security.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BadgeTimes {
     ArrayList<LocalDateTime> times;
@@ -24,7 +17,7 @@ public class BadgeTimes {
 
     public void init() {
         for (int i = 0; i<20;i++) {
-            LocalDateTime ldt = LocalDateTime.now().plusHours(i);
+            LocalDateTime ldt = LocalDateTime.now().plusHours(i+10);
             times.add(ldt);
         }
     }
@@ -41,5 +34,63 @@ public class BadgeTimes {
 
         }
         return result;
+    }
+
+    public float getBadgedTimeDay(LocalDateTime date) {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusDays(1);
+        endDate = endDate.withDayOfMonth(endDate.lengthOfMonth());
+
+        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+
+        float max = getSecondsBetweenDays(daysBetween, startDate);
+        return max;
+    }
+
+    public float getBadgedTimeWeek(LocalDateTime date) {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusWeeks(1);
+        endDate = endDate.withDayOfMonth(endDate.lengthOfMonth());
+        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        float max = getSecondsBetweenDays(daysBetween, startDate);
+        return max;
+    }
+
+    public float getBadgedTimeMonth(LocalDateTime date) {
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = startDate.plusMonths(1);
+        endDate = endDate.withDayOfMonth(endDate.lengthOfMonth());
+
+        long daysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+
+        float max = getSecondsBetweenDays(daysBetween, startDate);
+        return max;
+    }
+
+    public float getSecondsBetweenDays(long daysBetween, LocalDate startDate) {
+        long times = 0;
+        for(int i = 0; i <= daysBetween; i++){
+            startDate.plusDays(i);
+            ArrayList<LocalDateTime> dates = getTimeStampsInDate(startDate);
+            LocalDateTime current = null;
+            Boolean pauseOrWork = true;
+            for (LocalDateTime ldt : dates) {
+                if (current==null) {
+                    current = ldt;
+                } else {
+                    if (pauseOrWork) {
+                        times = times + (ChronoUnit.SECONDS.between(current, ldt));
+                    } else {
+
+                    }
+                    current = ldt;
+                }
+            }
+        }
+        return times/(60*60*60);
+    }
+
+    public void addBadgeTime(LocalDateTime ldt) {
+        times.add(ldt);
     }
 }

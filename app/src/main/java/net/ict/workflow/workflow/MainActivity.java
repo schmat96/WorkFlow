@@ -35,6 +35,7 @@ import net.ict.workflow.workflow.model.User;
 import net.ict.workflow.workflow.record.NdefMessageParser;
 import net.ict.workflow.workflow.record.ParsedNdefRecord;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -49,6 +50,7 @@ public class  MainActivity extends AppCompatActivity {
     private NfcAdapter nfcAdapter;
     private Switch nfcswitch;
     private TextView textView;
+    private RecyclerView recyclerView;
 
 
     @Override
@@ -72,8 +74,8 @@ public class  MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
-        RecyclerView myList = (RecyclerView) findViewById(R.id.card_view_container);
-        myList.setLayoutManager(layoutManager);
+        recyclerView = (RecyclerView) findViewById(R.id.card_view_container);
+        recyclerView.setLayoutManager(layoutManager);
 
         setRecycleView();
 
@@ -259,7 +261,10 @@ public class  MainActivity extends AppCompatActivity {
             //TODO Change to Settings
             LinearLayout ll = (LinearLayout) findViewById(R.id.scanHinweis);
             TransitionDrawable transition = (TransitionDrawable) ll.getBackground();
-            transition.startTransition(600);
+            transition.startTransition(1200);
+            user.addBadgeTime(LocalDateTime.now());
+            // TODO get current position of recyclerView
+            user.reloadCard(0, LocalDateTime.now(), this);
 
         }
         return super.onOptionsItemSelected(item);
@@ -267,10 +272,12 @@ public class  MainActivity extends AppCompatActivity {
 
 
     private void setRecycleView(){
-        RecyclerView recyclerView = findViewById(R.id.card_view_container);
+        recyclerView = findViewById(R.id.card_view_container);
         int anzahl = 3;
 
-        CardAdapter cardAdapter = new CardAdapter(this.user.getCards());
+        //TODO hier this mitzugeben ist nicht schön aber ich habe keinen anderen Weg gefunden um auf die R.string.* zuzugreiffen.
+        LocalDateTime ldt = LocalDateTime.now();
+        CardAdapter cardAdapter = new CardAdapter(this.user.getCards(this, ldt));
         recyclerView.setAdapter(cardAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         //SwipeController swipeController = new SwipeController(cardAdapter);
