@@ -1,5 +1,6 @@
 package net.ict.workflow.workflow;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public CardAdapter(Cards[] bars, MainActivity ma) {
         this.dataSet = bars;
         this.mainActivity = ma;
-
     }
 
 
@@ -86,11 +86,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_UP){
-                if (motionEvent.getX() > view.getWidth()/2) {
-                    mainActivity.buttonUpClicked();
-                } else {
-                    mainActivity.buttonDownClicked();
-                }
+                mainActivity.changeViewBadgesTimes();
             }
             return true;
         }

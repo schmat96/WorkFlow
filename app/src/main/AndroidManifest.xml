@@ -36,9 +36,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NfcDetails">
+        <activity android:name=".NfcDetails"></activity>
 
-        </activity>
+        <activity android:name=".BadgeTimesActivity"></activity>
+
+
+
+
+
+
+
 
 
     </application>

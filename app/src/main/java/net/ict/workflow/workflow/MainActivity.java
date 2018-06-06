@@ -49,11 +49,14 @@ import java.util.List;
 
 public class  MainActivity extends AppCompatActivity {
 
+    public static final String INTENT_CHOOSEN_DATE = "CHOOSEN_DATE";
+    private static String TAG = "MainActivity";
+
     User user;
     Boolean loggedIn = false;
     Menu headerMenu;
     Toolbar toolbar;
-    private static String TAG = "MainActivity";
+
 
     private NfcAdapter nfcAdapter;
     private Switch nfcswitch;
@@ -322,6 +325,18 @@ public class  MainActivity extends AppCompatActivity {
         int pos = mLayoutManager.getPosition(centerView);
         user.minusDate(pos);
         cardAdapter.notifyDataSetChanged();
+    }
+
+    public void changeViewBadgesTimes() {
+        RecyclerView.LayoutManager mLayoutManager = this.recyclerView.getLayoutManager();
+        View centerView = snapHelper.findSnapView(mLayoutManager);
+        int pos = mLayoutManager.getPosition(centerView);
+        Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+
+        intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
+
+
+        startActivity(intent);
     }
 
     private class switchListener implements CompoundButton.OnCheckedChangeListener {

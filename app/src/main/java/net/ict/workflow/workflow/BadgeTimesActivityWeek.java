@@ -6,16 +6,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import java.time.LocalDateTime;
 
-public class BadgeTimesActivity extends AppCompatActivity {
+public class BadgeTimesActivityWeek extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.badge_times);
+        setContentView(R.layout.badge_times_week);
 
         Intent intent = getIntent();
 
@@ -26,9 +25,9 @@ public class BadgeTimesActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.badge_times);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.badge_times_week);
         recyclerView.setLayoutManager(layoutManager);
-        BadgeTimesRecycler btr = new BadgeTimesRecycler(this, ldt);
+        BadgeTimesRecyclerWeek btr = new BadgeTimesRecyclerWeek(this, ldt);
         recyclerView.setAdapter(btr);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 

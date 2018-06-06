@@ -7,19 +7,28 @@ import net.ict.workflow.workflow.MainActivity;
 import net.ict.workflow.workflow.R;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 public class User {
     private Integer id = 0;
     private BadgeTimes badgeTimes;
     private Cards[] cards;
     private LocalDateTime choosenDate;
+    private ZoneOffset zoneOffSet;
 
     public User() {
         //#TODO checken ob der user schonmal eingeloggt war auf diesem Natel, wenn ja id = userID;
         this.badgeTimes = new BadgeTimes();
         choosenDate = LocalDateTime.now();
+
+        OffsetDateTime odt = OffsetDateTime.now ();
+        zoneOffSet = odt.getOffset ();
+
         badgeTimes.init();
     }
+
+
 
     public int getID() {
         return this.id;
@@ -104,6 +113,10 @@ public class User {
 
     public LocalDateTime getChoosenDate() {
         return this.choosenDate;
+    }
+
+    public ZoneOffset getZoneOffSet() {
+        return zoneOffSet;
     }
 
     public void addBadgeTime(LocalDateTime now) {
