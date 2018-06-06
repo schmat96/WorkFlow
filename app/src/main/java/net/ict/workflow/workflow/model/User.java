@@ -54,7 +54,7 @@ public class User {
         return cards;
     }
 
-    public void reloadCard(int pos) {
+    public void reloadCard(CardType pos) {
         // TODO Position wird im Moment noch nicht bearbeitet. Die Idee ist das hier nur die Karte bearbeitet wird, welche mit der Pos reinkommt --> enums.
         // TODO MAX Wert muss hier auch noch programmatically gesetzt werden.
         //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
@@ -73,15 +73,15 @@ public class User {
         Log.e("User", "finished loading "+(System.currentTimeMillis()-timecurrent));
     }
 
-    public void plusDate(int pos) {
+    public void plusDate(CardType pos) {
         switch (pos) {
-            case 0:
+            case DAY:
                 this.choosenDate = this.choosenDate.plusDays(1);
                 break;
-            case 1:
+            case WEEK:
                 this.choosenDate = this.choosenDate.plusWeeks(1);
                 break;
-            case 2:
+            case MONTH:
                 this.choosenDate = this.choosenDate.plusMonths(1);
                 break;
             default:
@@ -90,15 +90,15 @@ public class User {
         this.reloadCard(pos);
     }
 
-    public void minusDate(int pos) {
+    public void minusDate(CardType pos) {
         switch (pos) {
-            case 0:
+            case DAY:
                 this.choosenDate = this.choosenDate.minusDays(1);
                 break;
-            case 1:
+            case WEEK:
                 this.choosenDate = this.choosenDate.minusWeeks(1);
                 break;
-            case 2:
+            case MONTH:
                 this.choosenDate = this.choosenDate.minusMonths(1);
                 break;
             default:

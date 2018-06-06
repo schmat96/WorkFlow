@@ -81,4 +81,8 @@ public class Cards {
     public void setCardType(CardType cardType) {
         this.cardType = cardType;
     }
+
+    public CardType getCardType() {
+        return cardType;
+    }
 }

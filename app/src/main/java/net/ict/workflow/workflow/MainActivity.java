@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import net.ict.workflow.workflow.model.CardType;
 import net.ict.workflow.workflow.model.User;
 import net.ict.workflow.workflow.record.NdefMessageParser;
 import net.ict.workflow.workflow.record.ParsedNdefRecord;
@@ -312,30 +313,25 @@ public class  MainActivity extends AppCompatActivity {
     }
 
     public void buttonUpClicked() {
-        RecyclerView.LayoutManager mLayoutManager = this.recyclerView.getLayoutManager();
-        View centerView = snapHelper.findSnapView(mLayoutManager);
-        int pos = mLayoutManager.getPosition(centerView);
-        user.plusDate(pos);
+        user.plusDate(findScrollPosition());
         cardAdapter.notifyDataSetChanged();
     }
 
     public void buttonDownClicked() {
-        RecyclerView.LayoutManager mLayoutManager = this.recyclerView.getLayoutManager();
-        View centerView = snapHelper.findSnapView(mLayoutManager);
-        int pos = mLayoutManager.getPosition(centerView);
-        user.minusDate(pos);
+        user.minusDate(findScrollPosition());
         cardAdapter.notifyDataSetChanged();
     }
 
-    public void changeViewBadgesTimes() {
+    private CardType findScrollPosition() {
         RecyclerView.LayoutManager mLayoutManager = this.recyclerView.getLayoutManager();
         View centerView = snapHelper.findSnapView(mLayoutManager);
         int pos = mLayoutManager.getPosition(centerView);
+        return this.user.getCards()[pos].getCardType();
+    }
+
+    public void changeViewBadgesTimes() {
         Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
-
         intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
-
-
         startActivity(intent);
     }
 
