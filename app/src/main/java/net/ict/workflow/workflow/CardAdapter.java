@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
@@ -44,10 +45,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         TextView tv2 = holder.cardView.findViewById(R.id.date);
         tv2.setText(dataSet[position].getDate());
 
-        Button butUp = holder.cardView.findViewById(R.id.upButton);
+        ImageButton butUp = holder.cardView.findViewById(R.id.upButton);
         butUp.setOnClickListener(buttonUpOnClickListener);
 
-        Button butDown = holder.cardView.findViewById(R.id.downButton);
+        ImageButton butDown = holder.cardView.findViewById(R.id.downButton);
         butDown.setOnClickListener(buttonDownOnClickListener);
 
 
