@@ -10,24 +10,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class Bar extends LinearLayout {
+    private boolean firstTime = true;
+
     public Bar(Context context) {
         super(context);
-
     }
 
     public Bar(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
     }
 
     public Bar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
     }
 
     public Bar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-
     }
 
     /**
@@ -47,7 +45,11 @@ public class Bar extends LinearLayout {
         LinearLayout linearLayoutMain = (LinearLayout) findViewById(R.id.app_bar_bar);
         LinearLayout linearLayoutLeft = (LinearLayout) findViewById(R.id.app_bar_left);
         LinearLayout linearLayoutRight = (LinearLayout) findViewById(R.id.app_bar_right);
-        manipulateColor(linearLayoutRight);
+        if (firstTime) {
+            manipulateColor(linearLayoutRight);
+            firstTime = false;
+        }
+
         linearLayoutMain.setWeightSum(sum);
 
         Boolean left = true;

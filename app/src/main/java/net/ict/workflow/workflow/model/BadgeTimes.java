@@ -17,7 +17,7 @@ public class BadgeTimes {
     }
 
     public void init() {
-        for (int i = 0; i<300;i++) {
+        for (int i = 0; i<10;i++) {
             LocalDateTime ldt = LocalDateTime.now().plusHours(i+10);
             times.add(ldt);
         }
@@ -38,19 +38,14 @@ public class BadgeTimes {
     }
 
     public float getBadgedTimeDay(LocalDateTime date) {
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = startDate.plusDays(1);
-        endDate = endDate.withDayOfMonth(endDate.lengthOfMonth());
-
+        LocalDate startDate = date.toLocalDate();
         long daysBetween = 1;
-
         float max = getSecondsBetweenDays(daysBetween, startDate);
         return max;
     }
 
     public float getBadgedTimeWeek(LocalDateTime date) {
         LocalDate startDate = date.with(DayOfWeek.MONDAY).toLocalDate();
-        LocalDate endDate = startDate.plusWeeks(1);
         long daysBetween = 7;
         float max = getSecondsBetweenDays(daysBetween, startDate);
         return max;

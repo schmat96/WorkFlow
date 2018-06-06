@@ -59,6 +59,8 @@ public class  MainActivity extends AppCompatActivity {
     private Switch nfcswitch;
     private TextView textView;
     private RecyclerView recyclerView;
+    private SnapHelper snapHelper;
+    private CardAdapter cardAdapter;
 
 
     @Override
@@ -292,17 +294,34 @@ public class  MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.card_view_container);
         int anzahl = 3;
 
-        //TODO hier this mitzugeben ist nicht schön aber ich habe keinen anderen Weg gefunden um auf die R.string.* zuzugreiffen.
+        //TODO hier "this" mitzugeben ist nicht schön aber ich habe keinen anderen Weg gefunden um auf die R.string.* zuzugreiffen.
         LocalDateTime ldt = LocalDateTime.now();
-        CardAdapter cardAdapter = new CardAdapter(this.user.getCards(this, ldt));
+        cardAdapter = new CardAdapter(this.user.getCards(), this);
         recyclerView.setAdapter(cardAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+
         //SwipeController swipeController = new SwipeController(cardAdapter);
         //ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
         //itemTouchhelper.attachToRecyclerView(recyclerView);
 
-        SnapHelper helper = new LinearSnapHelper();
-        helper.attachToRecyclerView(recyclerView);
+        snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
+    }
+
+    public void buttonUpClicked() {
+        RecyclerView.LayoutManager mLayoutManager = this.recyclerView.getLayoutManager();
+        View centerView = snapHelper.findSnapView(mLayoutManager);
+        int pos = mLayoutManager.getPosition(centerView);
+        user.plusDate(pos);
+        cardAdapter.notifyDataSetChanged();
+    }
+
+    public void buttonDownClicked() {
+        RecyclerView.LayoutManager mLayoutManager = this.recyclerView.getLayoutManager();
+        View centerView = snapHelper.findSnapView(mLayoutManager);
+        int pos = mLayoutManager.getPosition(centerView);
+        user.minusDate(pos);
+        cardAdapter.notifyDataSetChanged();
     }
 
     private class switchListener implements CompoundButton.OnCheckedChangeListener {

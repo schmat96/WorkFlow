@@ -4,19 +4,22 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     private Cards[] dataSet;
-
+    private MainActivity mainActivity;
     private int currentIndex = 0;
 
-
-    public CardAdapter(Cards[] bars) {
+    public CardAdapter(Cards[] bars, MainActivity ma) {
         this.dataSet = bars;
+        this.mainActivity = ma;
+
     }
 
 
@@ -25,18 +28,27 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public CardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View cardViewLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview, parent, false);
         ViewHolder viewHolder = new ViewHolder(cardViewLayout);
+        cardViewLayout.setOnTouchListener(viewListener);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull CardAdapter.ViewHolder holder, int position) {
-        //TODO bind params to cards
 
         Bar bar = holder.cardView.findViewById(R.id.bar);
         bar.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
 
-        TextView tv = holder.cardView.findViewById(R.id.scope);
+        TextView tv = holder.cardView.findViewById(R.id.cardViewTitle);
         tv.setText(dataSet[position].title());
+
+        TextView tv2 = holder.cardView.findViewById(R.id.date);
+        tv2.setText(dataSet[position].getDate());
+
+        Button butUp = holder.cardView.findViewById(R.id.upButton);
+        butUp.setOnClickListener(buttonUpOnClickListener);
+
+        Button butDown = holder.cardView.findViewById(R.id.downButton);
+        butDown.setOnClickListener(buttonDownOnClickListener);
 
 
     }
@@ -68,5 +80,36 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private void swipe(int newIndex) {
 
     }
+
+    private View.OnTouchListener viewListener = new View.OnTouchListener() {
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                if (motionEvent.getX() > view.getWidth()/2) {
+                    mainActivity.buttonUpClicked();
+                } else {
+                    mainActivity.buttonDownClicked();
+                }
+            }
+            return true;
+        }
+    };
+
+    private View.OnClickListener buttonUpOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mainActivity.buttonUpClicked();
+        }
+    };
+
+
+
+    private View.OnClickListener buttonDownOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mainActivity.buttonDownClicked();
+        }
+    };
 
 }
