@@ -13,7 +13,6 @@ import java.time.ZoneOffset;
 public class User {
     private Integer id = 0;
     private BadgeTimes badgeTimes;
-    private Cards[] cards;
     private LocalDateTime choosenDate;
     private ZoneOffset zoneOffSet;
 
@@ -21,56 +20,18 @@ public class User {
         //#TODO checken ob der user schonmal eingeloggt war auf diesem Natel, wenn ja id = userID;
         this.badgeTimes = new BadgeTimes();
         choosenDate = LocalDateTime.now();
-
         OffsetDateTime odt = OffsetDateTime.now ();
         zoneOffSet = odt.getOffset ();
-
         badgeTimes.init();
     }
 
+    public User(LocalDateTime date) {
 
-
-    public int getID() {
-        return this.id;
-    }
-
-    public BadgeTimes getBadgeTimes() {
-        return this.badgeTimes;
-    }
-
-
-    public Cards[] getCards() {
-        //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
-        long timecurrent = System.currentTimeMillis();
-        Log.e("User", "starting badgetimes");
-        if (cards == null) {
-            cards = new Cards[3];
-            String datum = getDate(choosenDate);
-            cards[0] = new Cards(8.24f, badgeTimes.getBadgedTimeDay(choosenDate), choosenDate, CardType.DAY);
-            cards[1] = new Cards(54.24f, badgeTimes.getBadgedTimeWeek(choosenDate), choosenDate, CardType.WEEK);
-            cards[2] = new Cards(200.05f, badgeTimes.getBadgedTimeMonth(choosenDate), choosenDate, CardType.MONTH);
-        }
-        Log.e("User", "finished loading"+(System.currentTimeMillis()-timecurrent));
-        return cards;
-    }
-
-    public void reloadCard(CardType pos) {
-        // TODO Position wird im Moment noch nicht bearbeitet. Die Idee ist das hier nur die Karte bearbeitet wird, welche mit der Pos reinkommt --> enums.
-        // TODO MAX Wert muss hier auch noch programmatically gesetzt werden.
-        //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
-        long timecurrent = System.currentTimeMillis();
-        Log.e("User", "starting badgetimes");
-        String datum = getDate(choosenDate);
-        cards[0].setZeit(badgeTimes.getBadgedTimeDay(choosenDate));
-        cards[0].setDate(choosenDate);
-
-        cards[1].setZeit(badgeTimes.getBadgedTimeWeek(choosenDate));
-        cards[1].setDate(choosenDate);
-
-        cards[2].setZeit(badgeTimes.getBadgedTimeMonth(choosenDate));
-        cards[2].setDate(choosenDate);
-
-        Log.e("User", "finished loading "+(System.currentTimeMillis()-timecurrent));
+        this.badgeTimes = new BadgeTimes();
+        choosenDate = date;
+        OffsetDateTime odt = OffsetDateTime.now ();
+        zoneOffSet = odt.getOffset ();
+        badgeTimes.init();
     }
 
     public void plusDate(CardType pos) {
@@ -87,7 +48,7 @@ public class User {
             default:
                 this.choosenDate = this.choosenDate.plusDays(1);
         }
-        this.reloadCard(pos);
+
     }
 
     public void minusDate(CardType pos) {
@@ -104,7 +65,7 @@ public class User {
             default:
                 this.choosenDate = this.choosenDate.minusDays(1);
         }
-        this.reloadCard(pos);
+
     }
 
     private String getDate(LocalDateTime date) {
@@ -121,5 +82,13 @@ public class User {
 
     public void addBadgeTime(LocalDateTime now) {
         badgeTimes.addBadgeTime(now);
+    }
+
+    public int getID() {
+        return this.id;
+    }
+
+    public BadgeTimes getBadgeTimes() {
+        return this.badgeTimes;
     }
 }

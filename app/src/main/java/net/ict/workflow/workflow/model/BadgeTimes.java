@@ -32,7 +32,6 @@ public class BadgeTimes {
             if (sameDay) {
                 result.add(ts);
             }
-
         }
         return result;
     }

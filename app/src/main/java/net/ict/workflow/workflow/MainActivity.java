@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import net.ict.workflow.workflow.model.BadgeTimes;
 import net.ict.workflow.workflow.model.CardType;
 import net.ict.workflow.workflow.model.User;
 import net.ict.workflow.workflow.record.NdefMessageParser;
@@ -66,22 +67,27 @@ public class  MainActivity extends AppCompatActivity {
     private SnapHelper snapHelper;
     private CardAdapter cardAdapter;
 
+    private Cards[] cards;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = (Toolbar)findViewById(R.id.app_bar);
+
         textView = (TextView) findViewById(R.id.hinweis);
         nfcswitch = findViewById(R.id.nfcswitch);
+
+        toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.user = new User();
         if (this.user.getID()!=0) {
             loggedIn = true;
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -251,7 +257,6 @@ public class  MainActivity extends AppCompatActivity {
         if (loggedIn) {
             headerMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.logged));
         }
-
         return true;
     }
 
@@ -293,14 +298,37 @@ public class  MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public Cards[] getCards() {
+        long timecurrent = System.currentTimeMillis();
+        Log.e("User", "starting badgetimes");
+        if (cards == null) {
+            cards = new Cards[3];
+            cards[0] = new Cards(user, CardType.DAY);
+            cards[1] = new Cards(user, CardType.WEEK);
+            cards[2] = new Cards(user, CardType.MONTH);
+        }
+        Log.e("User", "finished loading"+(System.currentTimeMillis()-timecurrent));
+        return cards;
+    }
+
+    public void reloadCard(CardType pos) {
+        // TODO Position wird im Moment noch nicht bearbeitet. Die Idee ist das hier nur die Karte bearbeitet wird, welche mit der Pos reinkommt --> enums.
+        // TODO MAX Wert muss hier auch noch programmatically gesetzt werden.
+        //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
+        long timecurrent = System.currentTimeMillis();
+        Log.e("User", "starting badgetimes");
+        LocalDateTime choosenDate = user.getChoosenDate();
+        BadgeTimes badgeTimes = user.getBadgeTimes();
+        Log.e("User", "finished loading "+(System.currentTimeMillis()-timecurrent));
+    }
+
 
     private void setRecycleView(){
         recyclerView = findViewById(R.id.card_view_container);
         int anzahl = 3;
 
-        //TODO hier "this" mitzugeben ist nicht schön aber ich habe keinen anderen Weg gefunden um auf die R.string.* zuzugreiffen.
         LocalDateTime ldt = LocalDateTime.now();
-        cardAdapter = new CardAdapter(this.user.getCards(), this);
+        cardAdapter = new CardAdapter(this.getCards(), this);
         recyclerView.setAdapter(cardAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
@@ -326,7 +354,7 @@ public class  MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = this.recyclerView.getLayoutManager();
         View centerView = snapHelper.findSnapView(mLayoutManager);
         int pos = mLayoutManager.getPosition(centerView);
-        return this.user.getCards()[pos].getCardType();
+        return this.getCards()[pos].getCardType();
     }
 
     public void changeViewBadgesTimes() {

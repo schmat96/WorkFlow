@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.ict.workflow.workflow.model.BadgeTimes;
+import net.ict.workflow.workflow.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,16 +21,12 @@ import java.util.ArrayList;
 public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.ViewHolder> {
 
     private ArrayList<LocalDateTime> dataSet;
-    private MainActivity mainActivity;
-    private int currentIndex = 0;
+
     private boolean inOrOut;
 
-    public BadgeTimesRecycler(BadgeTimesActivity ma, LocalDateTime ldt) {
-        BadgeTimes bt = new BadgeTimes();
-        bt.init();
-        dataSet = bt.getTimeStampsInDate(ldt.toLocalDate());
+    public BadgeTimesRecycler(@NonNull User user) {
+        dataSet = user.getBadgeTimes().getTimeStampsInDate(user.getChoosenDate().toLocalDate());
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,7 +39,6 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
     public void onBindViewHolder(BadgeTimesRecycler.ViewHolder holder, int position) {
         TextView tv = holder.cardView.findViewById(R.id.badgeTimeTextView);
         tv.setText(dataSet.get(position).toString());
-
         ImageView iv = holder.cardView.findViewById(R.id.symbol);
         if (inOrOut) {
             iv.setImageResource(R.drawable.arrow_left);
@@ -50,7 +46,6 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
             iv.setImageResource(R.drawable.arrow_right);
         }
         inOrOut = !inOrOut;
-
     }
 
 

@@ -3,4 +3,6 @@
     <string name="Day">Day</string>
     <string name="Week">Week</string>
     <string name="Month">Month</string>
+    <string name="confirm">Confirm</string>
+    <string name="WorkDay">Du musst heute noch %2$s Stunden arbeiten!</string>
 </resources>
