@@ -90,13 +90,27 @@ public class BadgeTimes {
             case WEEK:
                 return MAX * WORK_DAYS;
             case MONTH:
-                return getDaysOfMonth(ldt);
+                return MAX * getDaysOfMonth(ldt);
             default:
                 return MAX;
         }
     }
 
     private int getDaysOfMonth(LocalDateTime ldt){
+        //TODO implement something like this:
+        // although realistically this method should return
+        // the number of workdays per month -> highly variable
+        // implement some calendar function of some sorts
+        /*
+        date = ldt;
+        int day = date.getDay();
+        int remainingDays = 31 - day;
+        localdatetime refDate = 2000;
+        while (refDate.getMonth() != date.getMonth() && year.something){
+            refDate = date.addDays(remainingDays);
+            remainingDays--;
+        }
+         */
         switch(ldt.getMonth()){
             case JANUARY:
             case MARCH:

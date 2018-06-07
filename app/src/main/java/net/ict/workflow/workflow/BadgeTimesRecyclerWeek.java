@@ -36,13 +36,11 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
 
     @Override
     public void onBindViewHolder(BadgeTimesRecyclerWeek.ViewHolder holder, int position) {
-        //TODO use day_preview fields to fill cardview
         TextView textView = holder.cardView.findViewById(R.id.day_card);
         textView.setText(dataSet.get(position).getDayOfWeek().toString());
 
         Bar bar = holder.cardView.findViewById(R.id.bar);
         bar.setValue(badgeTimes.getMax(CardType.DAY, dataSet.get(position)), badgeTimes.getBadgedTimeDay(dataSet.get(position)));
-        Log.e("Week_Overview", position + " has been added");
     }
 
     @Override
@@ -50,14 +48,6 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
         return dataSet.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        private CardView cardView;
-        public ViewHolder(View view) {
-            super(view);
-            cardView = view.findViewById(R.id.badge_time_week);
-        }
-    }
 
     private ArrayList<LocalDateTime> initDataset(LocalDateTime ldt){
         ArrayList<LocalDateTime> week = new ArrayList<>();
@@ -70,4 +60,18 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
         }
         return week;
     }
+
+
+    /**
+     * Inner Class ViewHolder
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        private CardView cardView;
+        public ViewHolder(View view) {
+            super(view);
+            cardView = view.findViewById(R.id.badge_time_week);
+        }
+    }
+
 }

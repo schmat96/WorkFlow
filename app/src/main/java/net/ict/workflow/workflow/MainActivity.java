@@ -369,7 +369,7 @@ public class  MainActivity extends AppCompatActivity {
                 intent = new Intent(getApplicationContext(), BadgeTimesActivityWeek.class);
                 break;
             case MONTH:
-                intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+                intent = new Intent(getApplicationContext(), BadgeTimesActivityMonth.class);
                 break;
             default:
                 intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
