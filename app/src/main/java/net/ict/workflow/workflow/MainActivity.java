@@ -81,7 +81,7 @@ public class  MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.user = new User();
         if (this.user.getID()!=0) {
@@ -131,6 +131,7 @@ public class  MainActivity extends AppCompatActivity {
         if (nfcAdapter!=null) {
             startNFCSensor(this, nfcAdapter);
         }
+        reloadCard(null);
 
     }
 
@@ -431,5 +432,7 @@ public class  MainActivity extends AppCompatActivity {
             // Do something with the date chosen by the user
         }
     }
+
+
 
 }

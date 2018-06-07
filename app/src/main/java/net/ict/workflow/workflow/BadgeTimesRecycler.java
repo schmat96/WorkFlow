@@ -1,6 +1,7 @@
 package net.ict.workflow.workflow;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -21,12 +22,14 @@ import java.util.ArrayList;
 public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.ViewHolder> {
 
     private ArrayList<LocalDateTime> dataSet;
+    private LocalDateTime localDateTime;
 
     private boolean inOrOut;
 
     public BadgeTimesRecycler(@NonNull User user) {
         dataSet = user.getBadgeTimes().getTimeStampsInDate(user.getChoosenDate().toLocalDate());
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,6 +57,19 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
         return dataSet.size();
     }
 
+    public void removeAtPosition(int pos) {
+
+        User.getBadgeTimes().removeWithValue(dataSet.get(pos));
+        dataSet.remove(pos);
+        this.notifyItemRemoved(pos);
+        this.notifyItemRangeChanged(pos, this.getItemCount());
+
+    }
+
+    public LocalDateTime getDateAtPosition(int pos) {
+        return dataSet.get(pos);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardView;
@@ -63,3 +79,4 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
         }
     }
 }
+

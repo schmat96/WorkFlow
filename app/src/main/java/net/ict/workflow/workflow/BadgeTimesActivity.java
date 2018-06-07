@@ -8,11 +8,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import net.ict.workflow.workflow.model.CardType;
 import net.ict.workflow.workflow.model.User;
 
 import java.time.LocalDateTime;
@@ -45,15 +47,19 @@ public class BadgeTimesActivity extends AppCompatActivity {
         BadgeTimesRecycler btr = new BadgeTimesRecycler(user);
         recyclerView.setAdapter(btr);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        SwipeController swipeController = new SwipeController(btr, this);
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
+        itemTouchhelper.attachToRecyclerView(recyclerView);
 
-        float valueBadged = user.getBadgeTimes().getBadgedTimeDay(user.getChoosenDate());
+
+        float valueBadged = User.getBadgeTimes().getBadgedTimeDay(user.getChoosenDate());
 
         Bar bar = (Bar) findViewById(R.id.barDay);
         bar.setValue(8.24f, valueBadged);
 
         TextView tv = (TextView) findViewById(R.id.cardViewTitle);
         Resources res = getResources();
-        String text = String.format("%.2f", valueBadged);
+        String text = String.format("%.2f", (User.getBadgeTimes().getMax(CardType.DAY, user.getChoosenDate()) - valueBadged));
         tv.setText(res.getString(R.string.WorkDay, text, text));
 
         ImageButton but = (ImageButton) findViewById(R.id.addButton);
@@ -62,16 +68,16 @@ public class BadgeTimesActivity extends AppCompatActivity {
 
     }
 
-    public void changeViewBadgesTimes() {
+    public void changeViewBadgesTimes(LocalDateTime ldt) {
         Intent intent = new Intent(getApplicationContext(), AddTimeAcitivity.class);
-        intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
+        intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
         startActivity(intent);
     }
 
     private View.OnClickListener buttonUpOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeViewBadgesTimes();
+            changeViewBadgesTimes(user.getChoosenDate());
         }
     };
 

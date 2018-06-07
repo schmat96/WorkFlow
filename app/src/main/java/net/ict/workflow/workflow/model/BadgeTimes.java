@@ -121,4 +121,8 @@ public class BadgeTimes {
     public void addBadgeTime(LocalDateTime ldt) {
         times.add(ldt);
     }
+
+    public void removeWithValue(LocalDateTime localDateTime) {
+        this.times.remove(localDateTime);
+    }
 }
