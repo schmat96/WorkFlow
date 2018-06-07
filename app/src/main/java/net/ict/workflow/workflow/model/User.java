@@ -12,26 +12,34 @@ import java.time.ZoneOffset;
 
 public class User {
     private Integer id = 0;
-    private BadgeTimes badgeTimes;
+    private static BadgeTimes badgeTimes;
     private LocalDateTime choosenDate;
     private ZoneOffset zoneOffSet;
 
     public User() {
         //#TODO checken ob der user schonmal eingeloggt war auf diesem Natel, wenn ja id = userID;
-        this.badgeTimes = new BadgeTimes();
+        if (User.badgeTimes == null) {
+            User.badgeTimes = new BadgeTimes();
+            badgeTimes.init();
+        }
+
         choosenDate = LocalDateTime.now();
         OffsetDateTime odt = OffsetDateTime.now ();
         zoneOffSet = odt.getOffset ();
-        badgeTimes.init();
+
     }
 
     public User(LocalDateTime date) {
 
-        this.badgeTimes = new BadgeTimes();
+        if (User.badgeTimes == null) {
+            User.badgeTimes = new BadgeTimes();
+            badgeTimes.init();
+        }
+
         choosenDate = date;
         OffsetDateTime odt = OffsetDateTime.now ();
         zoneOffSet = odt.getOffset ();
-        badgeTimes.init();
+
     }
 
     public void plusDate(CardType pos) {
@@ -88,7 +96,9 @@ public class User {
         return this.id;
     }
 
-    public BadgeTimes getBadgeTimes() {
-        return this.badgeTimes;
+    public static BadgeTimes getBadgeTimes() {
+        return User.badgeTimes;
     }
+
+
 }

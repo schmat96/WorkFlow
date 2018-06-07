@@ -6,6 +6,7 @@ import net.ict.workflow.workflow.model.CardType;
 import net.ict.workflow.workflow.model.User;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 
@@ -23,24 +24,12 @@ public class Cards {
 
     public String title() {
         String returnState = "";
-        return this.user.getChoosenDate().toString();
-        /*
-        switch (cardType) {
+        //return this.user.getChoosenDate().toString();
+        DateTimeFormatter formatter;
+        formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
+        return this.user.getChoosenDate().format(formatter);
 
-            case DAY:
-                returnState = date.getDayOfWeek().toString();
-                break;
-            case WEEK:
-                WeekFields weekFields = WeekFields.of(Locale.getDefault());
-                int weekNumber = date.get(weekFields.weekOfWeekBasedYear());
-                returnState = "Week " + weekNumber;
-                break;
-            case MONTH:
-                returnState = date.getMonth().toString();
-                break;
-        }
-        return returnState;
-        */
+
     }
 
     public String getDate() {
@@ -64,32 +53,20 @@ public class Cards {
 
 
     public float getMax() {
-        float ret = 0f;
-        switch (this.cardType) {
-            case DAY:
-                ret = 8f;
-                break;
-            case WEEK:
-                ret = 54f;
-                break;
-            case MONTH:
-                ret =  200f;
-                break;
-        }
-        return ret;
+        return User.getBadgeTimes().getMax(this.cardType, this.user.getChoosenDate());
     }
 
     public float getZeit() {
         float ret = 0f;
         switch (this.cardType) {
             case DAY:
-                ret = this.user.getBadgeTimes().getBadgedTimeDay(this.user.getChoosenDate());
+                ret = User.getBadgeTimes().getBadgedTimeDay(this.user.getChoosenDate());
                 break;
             case WEEK:
-                ret = this.user.getBadgeTimes().getBadgedTimeWeek(this.user.getChoosenDate());
+                ret = User.getBadgeTimes().getBadgedTimeWeek(this.user.getChoosenDate());
                 break;
             case MONTH:
-                ret =  this.user.getBadgeTimes().getBadgedTimeMonth(this.user.getChoosenDate());
+                ret =  User.getBadgeTimes().getBadgedTimeMonth(this.user.getChoosenDate());
                 break;
         }
         return ret;

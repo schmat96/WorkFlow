@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import net.ict.workflow.workflow.model.BadgeTimes;
 import net.ict.workflow.workflow.model.CardType;
+import net.ict.workflow.workflow.model.User;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,8 +22,7 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
     private BadgeTimesActivityWeek mainActivity;
 
     public BadgeTimesRecyclerWeek(BadgeTimesActivityWeek ma, LocalDateTime ldt) {
-        badgeTimes = new BadgeTimes();
-        badgeTimes.init();
+        badgeTimes = User.getBadgeTimes();
         dataSet = initDataset(ldt);
     }
 
