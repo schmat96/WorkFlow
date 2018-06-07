@@ -1,9 +1,11 @@
 package net.ict.workflow.workflow;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,18 +14,24 @@ import net.ict.workflow.workflow.model.BadgeTimes;
 import net.ict.workflow.workflow.model.CardType;
 import net.ict.workflow.workflow.model.User;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+
+import static net.ict.workflow.workflow.MainActivity.INTENT_CHOOSEN_DATE;
 
 public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyclerWeek.ViewHolder> {
 
     private ArrayList<LocalDateTime> dataSet;
     private BadgeTimes badgeTimes;
     private BadgeTimesActivityWeek mainActivity;
+    private LocalDateTime ldt;
 
     public BadgeTimesRecyclerWeek(BadgeTimesActivityWeek ma, LocalDateTime ldt) {
         badgeTimes = User.getBadgeTimes();
         dataSet = initDataset(ldt);
+        mainActivity = ma;
+        this.ldt = ldt;
     }
 
     @Override
@@ -31,6 +39,17 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
         View cardViewLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.badge_time_week, parent, false);
         BadgeTimesRecyclerWeek.ViewHolder viewHolder = new BadgeTimesRecyclerWeek.ViewHolder(cardViewLayout);
         //TODO HERE set onclick listener for badgetime single day view
+        cardViewLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    Intent intent = new Intent(mainActivity.getApplicationContext(), BadgeTimesActivity.class);
+                    intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
+                    mainActivity.startActivity(intent);
+                }
+                return true;
+            }
+        });
         return viewHolder;
     }
 

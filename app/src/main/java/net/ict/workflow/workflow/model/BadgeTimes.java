@@ -11,7 +11,7 @@ public class BadgeTimes {
     ArrayList<LocalDateTime> times;
 
     private static final String TAG = "MyActivity";
-    private static final float MAX = 8.24f;
+    private static final float MAX = 8.5f;
     private static final int WORK_DAYS = 5;
 
     public BadgeTimes() {
