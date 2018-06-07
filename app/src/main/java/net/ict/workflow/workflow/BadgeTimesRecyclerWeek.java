@@ -2,10 +2,14 @@ package net.ict.workflow.workflow;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import net.ict.workflow.workflow.model.BadgeTimes;
+import net.ict.workflow.workflow.model.CardType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,27 +17,37 @@ import java.util.ArrayList;
 public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyclerWeek.ViewHolder> {
 
     private ArrayList<LocalDateTime> dataSet;
+    private BadgeTimes badgeTimes;
     private BadgeTimesActivityWeek mainActivity;
 
     public BadgeTimesRecyclerWeek(BadgeTimesActivityWeek ma, LocalDateTime ldt) {
-        BadgeTimes bt = new BadgeTimes();
-        bt.init();
-        dataSet = bt.getTimeStampsInDate(ldt.toLocalDate());
+        badgeTimes = new BadgeTimes();
+        badgeTimes.init();
+        dataSet = initDataset(ldt);
     }
 
     @Override
     public BadgeTimesRecyclerWeek.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View cardViewLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.badge_time_week, parent, false);
+        BadgeTimesRecyclerWeek.ViewHolder viewHolder = new BadgeTimesRecyclerWeek.ViewHolder(cardViewLayout);
+        //TODO HERE set onclick listener for badgetime single day view
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(BadgeTimesRecyclerWeek.ViewHolder holder, int position) {
+        //TODO use day_preview fields to fill cardview
+        TextView textView = holder.cardView.findViewById(R.id.day_card);
+        textView.setText(dataSet.get(position).getDayOfWeek().toString());
 
+        Bar bar = holder.cardView.findViewById(R.id.bar);
+        bar.setValue(badgeTimes.getMax(CardType.DAY, dataSet.get(position)), badgeTimes.getBadgedTimeDay(dataSet.get(position)));
+        Log.e("Week_Overview", position + " has been added");
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return dataSet.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -43,5 +57,17 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
             super(view);
             cardView = view.findViewById(R.id.badge_time_week);
         }
+    }
+
+    private ArrayList<LocalDateTime> initDataset(LocalDateTime ldt){
+        ArrayList<LocalDateTime> week = new ArrayList<>();
+        int currentDay = ldt.getDayOfWeek().getValue();
+        for(int i = 1; i < currentDay; i++){
+            week.add(ldt.minusDays(currentDay - i));
+        }
+        for(int j = currentDay; j <= 7; j++){
+            week.add(ldt.plusDays(j - currentDay));
+        }
+        return week;
     }
 }

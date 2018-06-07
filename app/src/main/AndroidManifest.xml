@@ -40,6 +40,7 @@
 
         <activity android:name=".BadgeTimesActivity"></activity>
 
+        <activity android:name=".BadgeTimesActivityWeek"></activity>
         <activity android:name=".AddTimeAcitivity"></activity>
 
 

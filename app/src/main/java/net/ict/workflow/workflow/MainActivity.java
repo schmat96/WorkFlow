@@ -19,6 +19,7 @@ import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -358,7 +359,22 @@ public class  MainActivity extends AppCompatActivity {
     }
 
     public void changeViewBadgesTimes() {
-        Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+        Intent intent;
+        CardType pos = findScrollPosition();
+        switch(pos){
+            case DAY:
+                intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+                break;
+            case WEEK:
+                intent = new Intent(getApplicationContext(), BadgeTimesActivityWeek.class);
+                break;
+            case MONTH:
+                intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+                break;
+            default:
+                intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+                break;
+        }
         intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
         startActivity(intent);
     }

@@ -11,6 +11,8 @@ public class BadgeTimes {
     ArrayList<LocalDateTime> times;
 
     private static final String TAG = "MyActivity";
+    private static final float MAX = 8.24f;
+    private static final int WORK_DAYS = 5;
 
     public BadgeTimes() {
         times = new ArrayList<>();
@@ -79,6 +81,41 @@ public class BadgeTimes {
             }
         }
         return times/(60*60);
+    }
+
+    public float getMax(CardType type, LocalDateTime ldt) {
+        switch(type){
+            case DAY:
+                return MAX;
+            case WEEK:
+                return MAX * WORK_DAYS;
+            case MONTH:
+                return getDaysOfMonth(ldt);
+            default:
+                return MAX;
+        }
+    }
+
+    private int getDaysOfMonth(LocalDateTime ldt){
+        switch(ldt.getMonth()){
+            case JANUARY:
+            case MARCH:
+            case MAY:
+            case JULY:
+            case AUGUST:
+            case OCTOBER:
+            case DECEMBER:
+                return 31;
+            case APRIL:
+            case JUNE:
+            case SEPTEMBER:
+            case NOVEMBER:
+                return 30;
+            case FEBRUARY:
+                return 28;
+                default:
+                    return 31;
+        }
     }
 
     public void addBadgeTime(LocalDateTime ldt) {
