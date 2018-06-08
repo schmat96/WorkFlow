@@ -44,32 +44,22 @@ public class BadgeTimesActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.badge_times);
         recyclerView.setLayoutManager(layoutManager);
-        BadgeTimesRecycler btr = new BadgeTimesRecycler(user);
+        BadgeTimesRecycler btr = new BadgeTimesRecycler(user, this);
         recyclerView.setAdapter(btr);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         SwipeController swipeController = new SwipeController(btr, this);
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
         itemTouchhelper.attachToRecyclerView(recyclerView);
 
-
-        float valueBadged = User.getBadgeTimes().getBadgedTimeDay(user.getChoosenDate());
-
-        Bar bar = (Bar) findViewById(R.id.barDay);
-        bar.setValue(8.24f, valueBadged);
-
-        TextView tv = (TextView) findViewById(R.id.cardViewTitle);
-        Resources res = getResources();
-        String text = String.format("%.2f", (User.getBadgeTimes().getMax(CardType.DAY, user.getChoosenDate()) - valueBadged));
-        tv.setText(res.getString(R.string.WorkDay, text, text));
+        updateCard();
 
         ImageButton but = (ImageButton) findViewById(R.id.addButton);
         but.setOnClickListener(buttonUpOnClickListener);
 
-
     }
 
     public void changeViewBadgesTimes(LocalDateTime ldt) {
-        Intent intent = new Intent(getApplicationContext(), AddTimeAcitivity.class);
+        Intent intent = new Intent(getApplicationContext(), EditTimeActivity.class);
         intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
         startActivity(intent);
     }
@@ -81,4 +71,13 @@ public class BadgeTimesActivity extends AppCompatActivity {
         }
     };
 
+    public void updateCard() {
+        float valueBadged = User.getBadgedTimeDay(user.getChoosenDate());
+        Bar bar = (Bar) findViewById(R.id.barDay);
+        bar.setValue(8.24f, valueBadged);
+        TextView tv = (TextView) findViewById(R.id.cardViewTitle);
+        Resources res = getResources();
+        String text = String.format("%.2f", (User.getMaxTime(CardType.DAY, user.getChoosenDate()) - valueBadged));
+        tv.setText(res.getString(R.string.WorkDay, text, text));
+    }
 }

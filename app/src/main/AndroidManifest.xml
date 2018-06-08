@@ -46,6 +46,8 @@
         <activity android:name=".BadgeTimesActivityMonth"></activity>
         <activity android:name=".AddTimeAcitivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".EditTimeActivity"
+            android:screenOrientation="portrait"></activity>
 
 
 

@@ -23,12 +23,11 @@ import static net.ict.workflow.workflow.MainActivity.INTENT_CHOOSEN_DATE;
 public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyclerWeek.ViewHolder> {
 
     private ArrayList<LocalDateTime> dataSet;
-    private BadgeTimes badgeTimes;
+    //private BadgeTimes badgeTimes;
     private BadgeTimesActivityWeek mainActivity;
     private LocalDateTime ldt;
 
     public BadgeTimesRecyclerWeek(BadgeTimesActivityWeek ma, LocalDateTime ldt) {
-        badgeTimes = User.getBadgeTimes();
         dataSet = initDataset(ldt);
         mainActivity = ma;
         this.ldt = ldt;
@@ -59,7 +58,8 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
         textView.setText(dataSet.get(position).getDayOfWeek().toString());
 
         Bar bar = holder.cardView.findViewById(R.id.bar);
-        bar.setValue(badgeTimes.getMax(CardType.DAY, dataSet.get(position)), badgeTimes.getBadgedTimeDay(dataSet.get(position)));
+
+        bar.setValue(User.getMaxTime(CardType.DAY, dataSet.get(position)), User.getBadgeTime(CardType.DAY, dataSet.get(position)));
     }
 
     @Override

@@ -8,16 +8,25 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import net.ict.workflow.workflow.model.User;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+
+import static net.ict.workflow.workflow.MainActivity.INTENT_CHOOSEN_DATE;
 
 public class AddTimeAcitivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private User user;
+    protected LocalDateTime ldt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +38,7 @@ public class AddTimeAcitivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        LocalDateTime ldt = (LocalDateTime)intent.getSerializableExtra(MainActivity.INTENT_CHOOSEN_DATE);
+        ldt = (LocalDateTime)intent.getSerializableExtra(MainActivity.INTENT_CHOOSEN_DATE);
         user = new User(ldt);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -40,5 +49,27 @@ public class AddTimeAcitivity extends AppCompatActivity {
         recyclerView.setAdapter(btr);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        addActionListeners();
+
+
     }
+
+    protected void addActionListeners() {
+        Button but = (Button) findViewById(R.id.confirmButton);
+        but.setOnClickListener(buttonConfirmListener);
+    }
+
+
+    private View.OnClickListener buttonConfirmListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            TimePicker tp = (TimePicker) findViewById(R.id.timepicker);
+            LocalDateTime newTime = ldt.toLocalDate().atTime(tp.getHour(), tp.getMinute());
+            User.addBadgeTime(newTime);
+            Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+            intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
+            startActivity(intent);
+        }
+    };
+
 }
