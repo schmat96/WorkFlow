@@ -44,7 +44,7 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP){
                     Intent intent = new Intent(mainActivity.getApplicationContext(), BadgeTimesActivity.class);
-                    intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
+                    intent.putExtra(INTENT_CHOOSEN_DATE, dataSet.get(viewHolder.getAdapterPosition()));
                     mainActivity.startActivity(intent);
                 }
                 return true;
