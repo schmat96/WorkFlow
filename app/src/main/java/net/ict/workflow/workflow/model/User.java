@@ -1,5 +1,6 @@
 package net.ict.workflow.workflow.model;
 
+import android.content.Context;
 import android.util.Log;
 
 import net.ict.workflow.workflow.Cards;
@@ -18,11 +19,10 @@ public class User {
     private LocalDateTime choosenDate;
     private ZoneOffset zoneOffSet;
 
-    public User() {
+    public User(Context context) {
         //#TODO checken ob der user schonmal eingeloggt war auf diesem Natel, wenn ja id = userID;
         if (User.badgeTimes == null) {
-            User.badgeTimes = new BadgeTimes();
-            badgeTimes.init();
+            User.badgeTimes = new BadgeTimes(context);
         }
 
         choosenDate = LocalDateTime.now();
@@ -31,11 +31,10 @@ public class User {
 
     }
 
-    public User(LocalDateTime date) {
+    public User(LocalDateTime date, Context context) {
 
         if (User.badgeTimes == null) {
-            User.badgeTimes = new BadgeTimes();
-            badgeTimes.init();
+            User.badgeTimes = new BadgeTimes(context);
         }
 
         choosenDate = date;
@@ -101,30 +100,50 @@ public class User {
      */
     @Deprecated
     public static float getBadgedTimeDay(LocalDateTime ldt) {
-        return badgeTimes.getBadgedTimeDay(ldt);
+        if (badgeTimes != null) {
+            return badgeTimes.getBadgedTimeDay(ldt);
+        }
+        return 0f;
     }
 
     public static float getMaxTime(CardType ct, LocalDateTime ldt) {
-        return badgeTimes.getMax(ct, ldt);
+        if (badgeTimes != null) {
+            return badgeTimes.getMax(ct, ldt);
+        }
+        return 0f;
     }
 
     public static float getBadgeTime(CardType ct, LocalDateTime ldt) {
-        return badgeTimes.getBadgedTime(ct, ldt);
+        if (badgeTimes != null) {
+            return badgeTimes.getBadgedTime(ct, ldt);
+        }
+        return 0f;
+
     }
 
     public static void removeWithValue(LocalDateTime localDateTime) {
-        badgeTimes.removeWithValue(localDateTime);
+        if (badgeTimes != null) {
+            badgeTimes.removeWithValue(localDateTime);
+        }
     }
 
     public static ArrayList<LocalDateTime> getTimeStampsInDate(LocalDate ldt) {
-        return badgeTimes.getTimeStampsInDate(ldt);
+        if (badgeTimes != null) {
+            return badgeTimes.getTimeStampsInDate(ldt);
+        }
+        return null;
     }
 
     public static void addBadgeTime(LocalDateTime now) {
-        badgeTimes.addBadgeTime(now);
+        if (badgeTimes != null) {
+            badgeTimes.addBadgeTime(now);
+        }
     }
 
     public static void updateBadgeTime(LocalDateTime oldTime, LocalDateTime newTime) {
-        badgeTimes.updateBadgeTime(oldTime, newTime);
+        if (badgeTimes != null) {
+            badgeTimes.updateBadgeTime(oldTime, newTime);
+
+        }
     }
 }

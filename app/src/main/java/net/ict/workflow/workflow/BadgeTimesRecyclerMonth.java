@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import net.ict.workflow.workflow.model.BadgeTimes;
 import net.ict.workflow.workflow.model.CardType;
+import net.ict.workflow.workflow.model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,15 +33,12 @@ import static net.ict.workflow.workflow.MainActivity.INTENT_CHOOSEN_DATE;
 
 public class BadgeTimesRecyclerMonth extends RecyclerView.Adapter<BadgeTimesRecyclerMonth.ViewHolder> {
 
-    private BadgeTimes badgeTimes;
     private ArrayList<LocalDateTime> dataSet;
     private WeekFields weekFields;
     private Activity mainActivity;
     private LocalDateTime ldt;
 
     public BadgeTimesRecyclerMonth(BadgeTimesActivityMonth ma, LocalDateTime ldt) {
-        badgeTimes = new BadgeTimes();
-        badgeTimes.init();
         mainActivity = ma;
         dataSet = initDataset(ldt);
         weekFields = WeekFields.of(Locale.getDefault());
@@ -72,7 +70,7 @@ public class BadgeTimesRecyclerMonth extends RecyclerView.Adapter<BadgeTimesRecy
         textView.setText("Week " + dataSet.get(position).get(weekFields.weekOfWeekBasedYear()));
 
         Bar bar = holder.cardView.findViewById(R.id.bar);
-        bar.setValue(badgeTimes.getMax(CardType.WEEK, dataSet.get(position)), badgeTimes.getBadgedTimeWeek(dataSet.get(position)));
+        bar.setValue(User.getMaxTime(CardType.WEEK, dataSet.get(position)), User.getBadgeTime(CardType.WEEK, dataSet.get(position)));
     }
 
     @Override

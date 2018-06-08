@@ -1,6 +1,10 @@
 package net.ict.workflow.workflow.model;
 
+import android.content.Context;
+
 import com.google.common.collect.TreeRangeSet;
+
+import net.ict.workflow.workflow.Converter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -15,24 +19,12 @@ public class BadgeTimes {
     TreeSet<LocalDateTime> times;
 
     private static final String TAG = "MyActivity";
-    private static final float MAX = 8.5f;
     private static final int WORK_DAYS = 5;
+    private DatabaseHelper dbh;
 
-    public BadgeTimes() {
-        times = new TreeSet<>();
-    }
-
-    public void init() {
-        if (times.size()<=0) {
-            for (int i = 0; i<800;i++) {
-                LocalDateTime ldt = LocalDateTime.now().plusHours(i*3);
-                ldt = ldt.plusMinutes(i*i/100);
-                ldt = ldt.minusNanos(ldt.getNano());
-                ldt = ldt.minusSeconds(ldt.getSecond());
-                times.add(ldt);
-            }
-        }
-
+    public BadgeTimes(Context context) {
+        dbh = new DatabaseHelper(context);
+        times = dbh.getAllBadgeTimes();
     }
 
     public ArrayList<LocalDateTime> getTimeStampsInDate(LocalDate date) {
@@ -105,16 +97,28 @@ public class BadgeTimes {
     }
 
     public float getMax(CardType type, LocalDateTime ldt) {
+        long max = dbh.getBadgeTimeMax(ldt);
         switch(type){
             case DAY:
-                return MAX;
+                return max;
             case WEEK:
-                return MAX * WORK_DAYS;
+                return max * workingDays();
             case MONTH:
-                return MAX * getDaysOfMonth(ldt);
+                return max * getDaysOfMonth(ldt);
             default:
-                return MAX;
+                return max;
         }
+    }
+
+    private long workingDays() {
+        Boolean[] weekDays = Converter.getWeekDays();
+        int lauf = 0;
+        for (Boolean bu : weekDays) {
+            if (bu) {
+                lauf++;
+            }
+        }
+        return lauf;
     }
 
     private int getDaysOfMonth(LocalDateTime ldt){
@@ -156,16 +160,18 @@ public class BadgeTimes {
 
     public void addBadgeTime(LocalDateTime ldt) {
         times.add(ldt);
+        dbh.insertBadgeTime(ldt, 0 , 133);
     }
 
     public void removeWithValue(LocalDateTime localDateTime) {
         this.times.remove(localDateTime);
+        dbh.deleteBadgeTimes(localDateTime);
     }
 
     public void updateBadgeTime(LocalDateTime oldTime, LocalDateTime newTime) {
         removeWithValue(oldTime);
         addBadgeTime(newTime);
-
+        dbh.updateBadgeTimes(oldTime, newTime);
     }
 
     public float getBadgedTime(CardType ct, LocalDateTime ldt) {
@@ -189,7 +195,6 @@ public class BadgeTimes {
                 max = getSecondsBetweenDays(daysBetween, startDate);
                 break;
         }
-
         return max;
 
 

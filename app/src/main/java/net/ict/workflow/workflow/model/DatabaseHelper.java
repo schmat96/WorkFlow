@@ -12,7 +12,7 @@ import java.util.TreeSet;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "BadgeTimes.db";
 
     // badge times statements
@@ -22,8 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String ATTR_DAYS_WEEK = "days_week";
 
     private static final String CREATE_TABLE_BADGETIMES = "CREATE TABLE " + TABLE_BADGETIMES + " ("
-            + ATTR_TIME + " TEXT PRIMARY KEY, " + ATTR_HOURS_DAY_FK + " INT, " + ATTR_DAYS_WEEK
-            + " INT)";
+            + ATTR_TIME + " TEXT PRIMARY KEY, " + ATTR_HOURS_DAY_FK + " INTEGER, " + ATTR_DAYS_WEEK
+            + " INTEGER)";
     private static final String DROP_TABLE_BADGETIMES = "DROP TABLE IF EXISTS " + TABLE_BADGETIMES;
 
     // max hours per day statements
@@ -32,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String ATTR_MAX = "max";
 
     private static final String CREATE_TABLE_HOURS_DAY = "CREATE TABLE " + TABLE_HOURS_DAY + " ("
-            + ATTR_ID_HOURS_DAY + " INT PRIMARY KEY AUTOINCREMENT, " + ATTR_MAX + " REAL)";
+            + ATTR_ID_HOURS_DAY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ATTR_MAX + " REAL)";
     private static final String DROP_TABLE_HOURS_DAY = "DROP TABLE IF EXISTS " + TABLE_HOURS_DAY;
 
     // TODO delete this once safe to do so
@@ -50,9 +50,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     private static final String CREATE_TABLE_DAYS_WEEK = "CREATE TABLE " + TABLE_DAYS_WEEK + " ("
-            + ATTR_ID_DAYS_WEEK + " INT PRIMARY KEY AUTOINCREMENT, " + ATTR_MONDAY + " INT, " + ATTR_TUESDAY
-            + " INT, " + ATTR_WEDNESDAY + " INT, " + ATTR_THURSDAY + " INT, " + ATTR_FRIDAY + " INT, "
-            + ATTR_SATURDAY + " INT, " + ATTR_SUNDAY + " INT)";
+            + ATTR_ID_DAYS_WEEK + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ATTR_MONDAY + " INTEGER, " + ATTR_TUESDAY
+            + " INTEGER, " + ATTR_WEDNESDAY + " INTEGER, " + ATTR_THURSDAY + " INTEGER, " + ATTR_FRIDAY + " INTEGER, "
+            + ATTR_SATURDAY + " INTEGER, " + ATTR_SUNDAY + " INTEGER)";
     private static final String DROP_TABLE_DAYS_WEEK = "DROP TABLE IF EXISTS " + TABLE_DAYS_WEEK;
     */
     public DatabaseHelper(Context context) {
@@ -165,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + TABLE_BADGETIMES + " WHERE " + ATTR_TIME
-                + " = " + localDateTime.toString();
+                + " = '" + localDateTime.toString() + "'";
 
         Cursor c = db.rawQuery(selectQuery, null);
         long dailyMax = 0;
@@ -183,7 +183,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + TABLE_BADGETIMES + " WHERE " + ATTR_TIME
-                + " = " + localDateTime.toString();
+                + " = '" + localDateTime.toString() + "'";
 
         Cursor c = db.rawQuery(selectQuery, null);
         long daySetCode = 0;

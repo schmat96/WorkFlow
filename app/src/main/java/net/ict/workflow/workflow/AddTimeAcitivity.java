@@ -39,7 +39,7 @@ public class AddTimeAcitivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         ldt = (LocalDateTime)intent.getSerializableExtra(MainActivity.INTENT_CHOOSEN_DATE);
-        user = new User(ldt);
+        user = new User(ldt, this);
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 

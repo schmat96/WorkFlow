@@ -37,7 +37,7 @@ public class BadgeTimesActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         LocalDateTime ldt = (LocalDateTime)intent.getSerializableExtra(MainActivity.INTENT_CHOOSEN_DATE);
-        user = new User(ldt);
+        user = new User(ldt, this);
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

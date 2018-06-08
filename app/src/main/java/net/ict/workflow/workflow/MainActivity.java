@@ -84,10 +84,12 @@ public class  MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        this.user = new User();
+        this.user = new User(this);
         if (this.user.getID()!=0) {
             loggedIn = true;
         }
+
+        user.addBadgeTime(LocalDateTime.now());
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 

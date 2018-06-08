@@ -60,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
         LinearLayout ll = (LinearLayout) cv.findViewById(R.id.settingpoint1);
 
         int i = 0;
-        setWeekDays();
+        weekDays = Converter.getWeekDays();
         for (DayOfWeek dow : DayOfWeek.values()) {
             SwitchCompat switchCompat = new SwitchCompat(this);
             switchCompat.setId(i);
@@ -115,21 +115,6 @@ public class SettingsActivity extends AppCompatActivity {
         themes[2] = "Orange";
     }
 
-    private void setWeekDays() {
-        weekDays = new Boolean[7];
-        int setting = 113;
-        int i = 0;
-        while (i<=6) {
-            if (setting % 2 == 0) {
-                weekDays[i] = false;
-            } else {
-                weekDays[i] = true;
-                setting--;
-            }
-            setting = setting / 2;
-            i++;
-        }
-    }
 
 
 }
