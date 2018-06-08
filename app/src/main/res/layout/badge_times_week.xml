@@ -2,14 +2,17 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/color_change" >
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:id="@+id/badge_times_week">
+        android:id="@+id/badge_times_week"
+        android:layout_marginTop="@dimen/marginCardView"
+        android:layout_marginBottom="@dimen/marginCardView">
 
     </android.support.v7.widget.RecyclerView>
 </android.support.constraint.ConstraintLayout>

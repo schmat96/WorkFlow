@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.TransitionDrawable;
@@ -107,8 +108,6 @@ public class  MainActivity extends AppCompatActivity {
             //handleNFCIntent(getIntent());
         //}
     }
-
-
 
     @Override
     protected void onStart() {
@@ -277,17 +276,9 @@ public class  MainActivity extends AppCompatActivity {
             return true;
         } else if(id == R.id.action_settings){
 
-            //TODO Change to Settings
-            LinearLayout ll = (LinearLayout) findViewById(R.id.scanHinweis);
-            TransitionDrawable transition = (TransitionDrawable) ll.getBackground();
-            transition.startTransition(1200);
-
-            DialogFragment newFragmentDate = new DatePickerFragment();
-            newFragmentDate.show(this.getFragmentManager(), "datePicker");
-
-            DialogFragment newFragment = new TimePickerFragment();
-            newFragment.show(this.getFragmentManager(), "timePicker");
-
+            Intent intent;
+            intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(intent);
 
         }
         return super.onOptionsItemSelected(item);

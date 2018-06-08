@@ -77,7 +77,13 @@ public class BadgeTimesActivity extends AppCompatActivity {
         bar.setValue(8.24f, valueBadged);
         TextView tv = (TextView) findViewById(R.id.cardViewTitle);
         Resources res = getResources();
-        String text = String.format("%.2f", (User.getMaxTime(CardType.DAY, user.getChoosenDate()) - valueBadged));
-        tv.setText(res.getString(R.string.WorkDay, text, text));
+        float rest = (User.getMaxTime(CardType.DAY, user.getChoosenDate()) - valueBadged);
+        if (rest > 0) {
+            String text = String.format("%.2f", rest);
+            tv.setText(res.getString(R.string.WorkDay, text, text));
+        } else {
+            tv.setText(res.getString(R.string.EnoughWorked));
+        }
+
     }
 }

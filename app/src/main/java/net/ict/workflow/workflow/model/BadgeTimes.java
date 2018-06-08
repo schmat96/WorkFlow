@@ -24,7 +24,7 @@ public class BadgeTimes {
 
     public void init() {
         if (times.size()<=0) {
-            for (int i = 0; i<200;i++) {
+            for (int i = 0; i<800;i++) {
                 LocalDateTime ldt = LocalDateTime.now().plusHours(i*3);
                 ldt = ldt.plusMinutes(i*i/100);
                 ldt = ldt.minusNanos(ldt.getNano());

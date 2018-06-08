@@ -48,6 +48,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".EditTimeActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".SettingsActivity"
+            android:screenOrientation="portrait"></activity>
 
 
 

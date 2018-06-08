@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/color_change">
 
     <include
         android:id="@+id/app_bar"
@@ -13,7 +14,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_gravity="top">
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/marginCardView"
+        android:layout_marginBottom="@dimen/marginCardView">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/badge_times"
             android:layout_width="match_parent"
