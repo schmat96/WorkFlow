@@ -6,9 +6,11 @@ import net.ict.workflow.workflow.Cards;
 import net.ict.workflow.workflow.MainActivity;
 import net.ict.workflow.workflow.R;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 
 public class User {
     private Integer id = 0;
@@ -88,17 +90,41 @@ public class User {
         return zoneOffSet;
     }
 
-    public void addBadgeTime(LocalDateTime now) {
-        badgeTimes.addBadgeTime(now);
-    }
+
 
     public int getID() {
         return this.id;
     }
 
-    public static BadgeTimes getBadgeTimes() {
-        return User.badgeTimes;
+    /**
+     * @deprecated use {@link #getBadgeTime(CardType ct, LocalDateTime ldt)} instead.
+     */
+    @Deprecated
+    public static float getBadgedTimeDay(LocalDateTime ldt) {
+        return badgeTimes.getBadgedTimeDay(ldt);
     }
 
+    public static float getMaxTime(CardType ct, LocalDateTime ldt) {
+        return badgeTimes.getMax(ct, ldt);
+    }
 
+    public static float getBadgeTime(CardType ct, LocalDateTime ldt) {
+        return badgeTimes.getBadgedTime(ct, ldt);
+    }
+
+    public static void removeWithValue(LocalDateTime localDateTime) {
+        badgeTimes.removeWithValue(localDateTime);
+    }
+
+    public static ArrayList<LocalDateTime> getTimeStampsInDate(LocalDate ldt) {
+        return badgeTimes.getTimeStampsInDate(ldt);
+    }
+
+    public static void addBadgeTime(LocalDateTime now) {
+        badgeTimes.addBadgeTime(now);
+    }
+
+    public static void updateBadgeTime(LocalDateTime oldTime, LocalDateTime newTime) {
+        badgeTimes.updateBadgeTime(oldTime, newTime);
+    }
 }

@@ -88,8 +88,6 @@ public class  MainActivity extends AppCompatActivity {
             loggedIn = true;
         }
 
-
-
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         LinearLayoutManager layoutManager
@@ -291,11 +289,6 @@ public class  MainActivity extends AppCompatActivity {
             newFragment.show(this.getFragmentManager(), "timePicker");
 
 
-            //newFragment.show(this.getSupportFragmentManager(), "timePicker");
-            //user.addBadgeTime(LocalDateTime.now());
-            // TODO get current position of recyclerView
-            //user.reloadCard(0, LocalDateTime.now(), this);
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -317,11 +310,27 @@ public class  MainActivity extends AppCompatActivity {
         // TODO Position wird im Moment noch nicht bearbeitet. Die Idee ist das hier nur die Karte bearbeitet wird, welche mit der Pos reinkommt --> enums.
         // TODO MAX Wert muss hier auch noch programmatically gesetzt werden.
         //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
-        long timecurrent = System.currentTimeMillis();
         Log.e("User", "starting badgetimes");
-        LocalDateTime choosenDate = user.getChoosenDate();
-        BadgeTimes badgeTimes = user.getBadgeTimes();
+        long timecurrent = System.currentTimeMillis();
+        if (pos != null) {
+            switch (pos) {
+                case DAY:
+                    cards[0] = new Cards(user, CardType.DAY);
+                    break;
+                case WEEK:
+                    cards[1] = new Cards(user, CardType.WEEK);
+                    break;
+                case MONTH:
+                    cards[2] = new Cards(user, CardType.MONTH);
+                    break;
+            }
+        } else {
+            cards[0] = new Cards(user, CardType.DAY);
+            cards[1] = new Cards(user, CardType.WEEK);
+            cards[2] = new Cards(user, CardType.MONTH);
+        }
         Log.e("User", "finished loading "+(System.currentTimeMillis()-timecurrent));
+        cardAdapter.notifyDataSetChanged();
     }
 
 

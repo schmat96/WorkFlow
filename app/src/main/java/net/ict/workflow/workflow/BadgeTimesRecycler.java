@@ -23,11 +23,17 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
 
     private ArrayList<LocalDateTime> dataSet;
     private LocalDateTime localDateTime;
+    private BadgeTimesActivity badgeTimesActivity;
 
     private boolean inOrOut;
 
+    public BadgeTimesRecycler(@NonNull User user, BadgeTimesActivity bta) {
+        dataSet = User.getTimeStampsInDate(user.getChoosenDate().toLocalDate());
+        badgeTimesActivity = bta;
+    }
+
     public BadgeTimesRecycler(@NonNull User user) {
-        dataSet = user.getBadgeTimes().getTimeStampsInDate(user.getChoosenDate().toLocalDate());
+        dataSet = User.getTimeStampsInDate(user.getChoosenDate().toLocalDate());
     }
 
 
@@ -41,7 +47,7 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
     @Override
     public void onBindViewHolder(BadgeTimesRecycler.ViewHolder holder, int position) {
         TextView tv = holder.cardView.findViewById(R.id.badgeTimeTextView);
-        tv.setText(dataSet.get(position).toString());
+        tv.setText(Converter.convertLocalDateTime(dataSet.get(position)));
         ImageView iv = holder.cardView.findViewById(R.id.symbol);
         if (inOrOut) {
             iv.setImageResource(R.drawable.arrow_left);
@@ -58,11 +64,14 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
     }
 
     public void removeAtPosition(int pos) {
-
-        User.getBadgeTimes().removeWithValue(dataSet.get(pos));
+        User.removeWithValue(dataSet.get(pos));
         dataSet.remove(pos);
         this.notifyItemRemoved(pos);
         this.notifyItemRangeChanged(pos, this.getItemCount());
+        if (badgeTimesActivity!=null) {
+            badgeTimesActivity.updateCard();
+        }
+
 
     }
 
@@ -71,7 +80,6 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         private CardView cardView;
         public ViewHolder(View view) {
             super(view);

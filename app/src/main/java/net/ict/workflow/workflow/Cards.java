@@ -53,23 +53,11 @@ public class Cards {
 
 
     public float getMax() {
-        return User.getBadgeTimes().getMax(this.cardType, this.user.getChoosenDate());
+        return User.getMaxTime(this.cardType, this.user.getChoosenDate());
     }
 
     public float getZeit() {
-        float ret = 0f;
-        switch (this.cardType) {
-            case DAY:
-                ret = User.getBadgeTimes().getBadgedTimeDay(this.user.getChoosenDate());
-                break;
-            case WEEK:
-                ret = User.getBadgeTimes().getBadgedTimeWeek(this.user.getChoosenDate());
-                break;
-            case MONTH:
-                ret =  User.getBadgeTimes().getBadgedTimeMonth(this.user.getChoosenDate());
-                break;
-        }
-        return ret;
+        return User.getBadgeTime(cardType, this.user.getChoosenDate());
     }
 
     public void setCardType(CardType cardType) {

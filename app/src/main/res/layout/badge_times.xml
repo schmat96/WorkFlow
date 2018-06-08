@@ -45,7 +45,7 @@
         <ImageButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/arrow_right"
+            android:src="@drawable/plus"
             android:id="@+id/addButton"/>
 
     </android.support.v7.widget.CardView>

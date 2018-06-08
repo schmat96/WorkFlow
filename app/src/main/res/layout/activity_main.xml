@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/color_change">
 
     <include
     android:id="@+id/app_bar"
@@ -22,8 +23,7 @@
             android:id="@+id/scanHinweis"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/color_change">
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/hinweis"
