@@ -62,9 +62,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // INSERT STATEMENTS
 
     // INSERT BADGETIMES
-    public long insertBadgeTime(LocalDateTime localDateTime, long hoursId, long daysCode) {
+    public long insertBadgeTime(LocalDateTime localDateTime, float hours, long daysCode) {
         SQLiteDatabase db = this.getWritableDatabase();
 
+        long hoursId = getHoursPerDayId(hours);
         ContentValues values = new ContentValues();
         values.put(ATTR_TIME, Converter.localDateTimeToString(localDateTime));
         values.put(ATTR_HOURS_DAY_FK, hoursId);
@@ -145,6 +146,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
         return dailyMax;
+    }
+
+    public long getHoursPerDayId(float hours) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_HOURS_DAY + " WHERE " + ATTR_MAX
+                + " = '" + hours + "'";
+
+        Cursor c = db.rawQuery(selectQuery, null);
+        long id = 1;
+        if(c != null && c.moveToFirst()) {
+            id = c.getLong(c.getColumnIndex(ATTR_ID_HOURS_DAY));
+            c.close();
+        }
+
+        db.close();
+
+        return id;
     }
 
     public long getBadgeTimeDaySet(LocalDateTime localDateTime) {
