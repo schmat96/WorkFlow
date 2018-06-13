@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import net.ict.workflow.workflow.Converter;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.TreeSet;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -72,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(ATTR_DAYS_WEEK, daysCode);
 
         long currentId = db.insert(TABLE_BADGETIMES, null, values);
-        // TODO ugly, re-enable once fixed
+
         db.close();
 
         return currentId;
@@ -86,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(ATTR_MAX, hours);
 
         long currentId = db.insert(TABLE_HOURS_DAY, null, values);
-        // TODO ugly, re-enable once fixed
+
         db.close();
 
         return currentId;
@@ -110,7 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             } while (c.moveToNext());
         }
         c.close();
-        // TODO ugly, re-enable once fixed
+
         db.close();
 
         return allBadgeTimes;
@@ -118,21 +117,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public float getBadgeTimeMax(LocalDateTime localDateTime) {
         SQLiteDatabase db = this.getReadableDatabase();
-/*
+
+        // Query for foreign key
         String selectQuery = "SELECT * FROM " + TABLE_BADGETIMES + " WHERE " + ATTR_TIME
-                + " = '" + localDateTime.toString() + "'";
-*/
-        String selectQuery = "SELECT * FROM " + TABLE_BADGETIMES;
+                + " = '" + Converter.localDateTimeToString(localDateTime) + "'";
 
         Cursor c = db.rawQuery(selectQuery, null);
-        float dailyMax = 5.24f;
+        long dailyMaxId = 1;
 
         if (c != null && c.moveToFirst()) {
-            dailyMax = c.getFloat(c.getColumnIndex(ATTR_HOURS_DAY_FK));
+            dailyMaxId = c.getInt(c.getColumnIndex(ATTR_HOURS_DAY_FK));
             c.close();
         }
 
-        // TODO ugly, re-enable once fixed
+        // Query for max time in float
+        String selectHourQuery = "SELECT * FROM " + TABLE_HOURS_DAY + " WHERE " + ATTR_ID_HOURS_DAY
+                + " = '" + dailyMaxId + "'";
+
+        Cursor c2 = db.rawQuery(selectHourQuery, null);
+        float dailyMax = 0f;
+
+        if (c2 != null && c2.moveToFirst()) {
+            dailyMax = c2.getFloat(c2.getColumnIndex(ATTR_MAX));
+            c2.close();
+        }
+
         db.close();
 
         return dailyMax;
@@ -151,7 +160,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
 
-        // TODO ugly, re-enable once fixed
         db.close();
 
         return daySetCode;
@@ -166,7 +174,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int count = cursor.getCount();
         cursor.close();
-        // TODO ugly, re-enable once fixed
+
         db.close();
 
         return count;
@@ -186,7 +194,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
 
-        // TODO ugly, re-enable once fixed
         db.close();
 
         return dailyMax;
@@ -201,7 +208,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int count = cursor.getCount();
         cursor.close();
-        // TODO ugly, re-enable once fixed
+
         db.close();
 
         return count;
@@ -218,9 +225,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(ATTR_TIME, localDateTimeNew.toString());
 
         int id = db.update(TABLE_BADGETIMES, values, ATTR_TIME + " = ?",
-                new String[] { String.valueOf(localDateTimeOld)});
+                new String[] { Converter.localDateTimeToString(localDateTimeOld)});
 
-        // TODO ugly, re-enable once fixed
         db.close();
 
         return id;
@@ -234,9 +240,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_BADGETIMES, ATTR_TIME +  " = ?",
-                new String[] { String.valueOf(localDateTime)});
+                new String[] { Converter.localDateTimeToString(localDateTime)});
 
-        // TODO ugly, re-enable once fixed
         db.close();
     }
 }
