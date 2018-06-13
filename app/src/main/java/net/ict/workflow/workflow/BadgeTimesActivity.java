@@ -32,7 +32,7 @@ public class BadgeTimesActivity extends AppCompatActivity {
 
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 

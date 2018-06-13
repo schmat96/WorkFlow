@@ -104,7 +104,6 @@ public class BadgeTimes {
         } else {
             max = dbh.getBadgeTimeMax(ldt);
         }
-
         switch(type){
             case DAY:
                 return max;

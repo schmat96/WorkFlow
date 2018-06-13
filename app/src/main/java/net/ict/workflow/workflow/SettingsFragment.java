@@ -1,7 +1,13 @@
 package net.ict.workflow.workflow;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.util.Log;
+
+import net.ict.workflow.workflow.model.OwnSettings;
 
 public class SettingsFragment extends PreferenceFragment {
 
@@ -9,7 +15,18 @@ public class SettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
+
+        Preference pref = findPreference("WorkingMinutes");
+        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                Log.e("TAAAAAAAAAAAAAAAAG", "dammed");
+                return true;
+            }
+        });
     }
+
 }
