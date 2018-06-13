@@ -27,6 +27,7 @@ public class AddTimeAcitivity extends AppCompatActivity {
     private Toolbar toolbar;
     private User user;
     protected LocalDateTime ldt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,8 +51,11 @@ public class AddTimeAcitivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         addActionListeners();
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     protected void addActionListeners() {
@@ -68,6 +72,7 @@ public class AddTimeAcitivity extends AppCompatActivity {
             User.addBadgeTime(newTime);
             Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
             intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
+            finish();
             startActivity(intent);
         }
     };

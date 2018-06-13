@@ -58,6 +58,11 @@ public class BadgeTimesActivity extends AppCompatActivity {
 
     }
 
+
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     public void changeViewBadgesTimes(LocalDateTime ldt) {
         Intent intent = new Intent(getApplicationContext(), EditTimeActivity.class);
         intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
