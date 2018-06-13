@@ -105,6 +105,13 @@ public class  MainActivity extends AppCompatActivity {
         setRecycleView();
 
         setNFCAdapter();
+
+        LocalDateTime now = LocalDateTime.now();
+        TextView textView = findViewById(R.id.hinweis);
+        LocalDateTime lastTime = user.getLastBadgedTime(now);
+        if(lastTime != null) {
+            textView.setText(Converter.convertLocalDateTime(now));
+        }
     }
 
     @Override
@@ -158,7 +165,6 @@ public class  MainActivity extends AppCompatActivity {
             user.addBadgeTime(now, OwnSettings.getDaysCode());
             TextView textView = findViewById(R.id.hinweis);
             textView.setText(Converter.convertLocalDateTime(now));
-            
             /*
             Parcelable[] rawMsg = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage[] msg;
