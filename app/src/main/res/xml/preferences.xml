@@ -8,4 +8,5 @@
         android:entries="@array/daysOfWeek"
         android:entryValues="@array/daysOfWeekValues" />
 
+
 </PreferenceScreen>

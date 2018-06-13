@@ -57,7 +57,6 @@ public class Bar extends LinearLayout {
         if (sum > valueLeft) {
             while (valueLeft>sum) {
                 valueLeft = valueLeft - sum;
-
                 if (left) {
                     switchColors (linearLayoutLeft,linearLayoutRight);
                     manipulateColor(linearLayoutLeft);

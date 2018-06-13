@@ -159,9 +159,9 @@ public class BadgeTimes {
     }
 
 
-    public void addBadgeTime(LocalDateTime ldt) {
+    public void addBadgeTime(LocalDateTime ldt, int daysCode) {
         times.add(ldt);
-        dbh.insertBadgeTime(ldt, 1 , 133);
+        dbh.insertBadgeTime(ldt, 1 , daysCode);
     }
 
     public void removeWithValue(LocalDateTime localDateTime) {
@@ -170,15 +170,12 @@ public class BadgeTimes {
     }
 
     public void updateBadgeTime(LocalDateTime oldTime, LocalDateTime newTime) {
-        removeWithValue(oldTime);
-        addBadgeTime(newTime);
         dbh.updateBadgeTimes(oldTime, newTime);
     }
 
     public float getBadgedTime(CardType ct, LocalDateTime ldt) {
         float max = 0f;
-        return max;
-        /*
+
         long daysBetween = 1;
         LocalDate startDate;
         switch (ct) {
@@ -200,7 +197,7 @@ public class BadgeTimes {
         }
 
         return max;
-        */
+
 
     }
 

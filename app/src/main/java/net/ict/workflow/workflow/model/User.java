@@ -155,9 +155,9 @@ public class User {
         return null;
     }
 
-    public static void addBadgeTime(LocalDateTime now) {
+    public static void addBadgeTime(LocalDateTime now, int daysCode) {
         if (badgeTimes != null) {
-            badgeTimes.addBadgeTime(now);
+            badgeTimes.addBadgeTime(now, daysCode);
         }
     }
 

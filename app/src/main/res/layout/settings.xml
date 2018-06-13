@@ -7,6 +7,4 @@
     tools:context=".SettingsActivity"
     android:background="@drawable/color_change"
     android:orientation="vertical">
-
-
 </ScrollView>

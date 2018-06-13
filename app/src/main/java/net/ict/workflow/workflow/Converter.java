@@ -39,4 +39,14 @@ public class Converter {
         }
         return weekDays;
     }
+
+    public static int getIntWeekDays(Boolean[] weeks) {
+        int id = 0;
+        for (int i=0;i<weeks.length;i++) {
+            if (weeks[i]) {
+                id = id + (int) (Math.pow(i,2));
+            }
+        }
+        return id;
+    }
 }
