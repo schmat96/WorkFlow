@@ -8,5 +8,11 @@
         android:entries="@array/daysOfWeek"
         android:entryValues="@array/daysOfWeekValues" />
 
-
+    <EditTextPreference
+        android:key="WorkingMinutes"
+        android:title="@string/WorkingMinutesPref"
+        android:summary="@string/WorkingMinutesDescPref"
+        android:numeric="integer"
+        android:maxLength="3"
+        android:defaultValue="500" />
 </PreferenceScreen>

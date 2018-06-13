@@ -81,9 +81,9 @@ public class BadgeTimesActivity extends AppCompatActivity {
     };
 
     public void updateCard() {
-        float valueBadged = User.getBadgedTimeDay(user.getChoosenDate());
+        float valueBadged = User.getBadgeTime(CardType.DAY, user.getChoosenDate());
         Bar bar = (Bar) findViewById(R.id.barDay);
-        bar.setValue(8.24f, valueBadged);
+        bar.setValue(User.getMaxTime(CardType.DAY, user.getChoosenDate()), valueBadged);
         TextView tv = (TextView) findViewById(R.id.cardViewTitle);
         Resources res = getResources();
         float rest = (User.getMaxTime(CardType.DAY, user.getChoosenDate()) - valueBadged);

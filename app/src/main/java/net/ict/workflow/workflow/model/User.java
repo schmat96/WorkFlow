@@ -129,9 +129,17 @@ public class User {
 
     public static float getMaxTime(CardType ct, LocalDateTime ldt) {
         if (badgeTimes != null) {
-            return badgeTimes.getMax(ct, ldt);
+            LocalDateTime searchedDate = badgeTimes.lookForBadgedTime(ldt);
+            return badgeTimes.getMax(ct, searchedDate, ldt);
         }
         return 0f;
+    }
+
+    public static LocalDateTime getLastBadgedTime(LocalDateTime ldt) {
+        if (badgeTimes != null) {
+            return badgeTimes.lookForBadgedTime(ldt);
+        }
+        return null;
     }
 
     public static float getBadgeTime(CardType ct, LocalDateTime ldt) {

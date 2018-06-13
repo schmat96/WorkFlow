@@ -16,6 +16,7 @@ import java.util.Set;
 public class OwnSettings {
 
     public static String KEY_WEEKS = "DayOfWeek";
+    public static String WORKING_MINUTES = "WorkingMinutes";
 
     public static int getDaysCode() {
         Boolean[] weekDays = getWeeks();
@@ -36,5 +37,17 @@ public class OwnSettings {
             }
         }
         return weeks;
+    }
+
+    public static float getTimePerDay() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(App.getContext());
+        int time = 480;
+        String s = prefs.getString(OwnSettings.WORKING_MINUTES, "default");
+        try {
+            time = Integer.parseInt(s);
+        } finally {
+            return (float) ((float) time/ (float)60);
+        }
+
     }
 }
