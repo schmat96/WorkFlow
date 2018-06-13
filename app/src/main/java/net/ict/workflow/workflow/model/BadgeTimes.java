@@ -97,15 +97,21 @@ public class BadgeTimes {
         return times/(60*60);
     }
 
-    public float getMax(CardType type, LocalDateTime ldt) {
-        float max = dbh.getBadgeTimeMax(ldt);
+    public float getMax(CardType type, LocalDateTime ldt, LocalDateTime ldtSuperbe) {
+        float max;
+        if (ldt == null) {
+            max = OwnSettings.getTimePerDay();
+        } else {
+            max = dbh.getBadgeTimeMax(ldt);
+        }
+
         switch(type){
             case DAY:
                 return max;
             case WEEK:
                 return max * workingDays();
             case MONTH:
-                return max * getDaysOfMonth(ldt);
+                return max * getDaysOfMonth(ldtSuperbe);
             default:
                 return max;
         }
@@ -195,12 +201,16 @@ public class BadgeTimes {
                 max = getSecondsBetweenDays(daysBetween, startDate);
                 break;
         }
-
         return max;
-
-
     }
 
 
-
+    public LocalDateTime lookForBadgedTime(LocalDateTime ldt) {
+        ArrayList<LocalDateTime> arr = getTimeStampsInDate(ldt.toLocalDate());
+        if (arr.size()==0) {
+            return null;
+        } else {
+            return arr.get(arr.size()-1);
+        }
+    }
 }
