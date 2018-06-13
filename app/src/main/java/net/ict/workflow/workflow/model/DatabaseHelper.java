@@ -13,7 +13,7 @@ import java.util.TreeSet;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 13;
     private static final String DATABASE_NAME = "BadgeTimes.db";
 
     // badge times statements
@@ -44,7 +44,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BADGETIMES);
         db.execSQL(CREATE_TABLE_HOURS_DAY);
-
     }
 
     @Override
@@ -65,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public long insertBadgeTime(LocalDateTime localDateTime, float hours, long daysCode) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        long hoursId = getHoursPerDayId(hours);
+        long hoursId = getHoursPerDayId(hours, db);
         ContentValues values = new ContentValues();
         values.put(ATTR_TIME, Converter.localDateTimeToString(localDateTime));
         values.put(ATTR_HOURS_DAY_FK, hoursId);
@@ -136,20 +135,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + " = '" + dailyMaxId + "'";
 
         Cursor c2 = db.rawQuery(selectHourQuery, null);
-        float dailyMax = 0f;
+        float dailyMax = 8.24f;
 
         if (c2 != null && c2.moveToFirst()) {
             dailyMax = c2.getFloat(c2.getColumnIndex(ATTR_MAX));
             c2.close();
         }
-
         db.close();
-
         return dailyMax;
     }
 
-    public long getHoursPerDayId(float hours) {
-        SQLiteDatabase db = this.getReadableDatabase();
+    public long getHoursPerDayId(float hours, SQLiteDatabase db) {
 
         String selectQuery = "SELECT * FROM " + TABLE_HOURS_DAY + " WHERE " + ATTR_MAX
                 + " = '" + hours + "'";
@@ -160,9 +156,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             id = c.getLong(c.getColumnIndex(ATTR_ID_HOURS_DAY));
             c.close();
         }
-
-        db.close();
-
         return id;
     }
 

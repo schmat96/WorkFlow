@@ -35,7 +35,7 @@
             android:orientation="horizontal">
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/arrow_left"
                 android:id="@+id/downButton"/>
             <TextView
@@ -48,7 +48,7 @@
                 android:layout_weight="1"/>
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:src="@drawable/arrow_right"
 
                 android:id="@+id/upButton"/>

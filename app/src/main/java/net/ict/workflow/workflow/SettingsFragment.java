@@ -19,14 +19,6 @@ public class SettingsFragment extends PreferenceFragment {
         // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preferences);
 
-        Preference pref = findPreference("WorkingMinutes");
-        pref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                Log.e("TAAAAAAAAAAAAAAAAG", "dammed");
-                return true;
-            }
-        });
     }
 
 }

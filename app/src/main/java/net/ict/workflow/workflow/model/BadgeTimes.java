@@ -97,13 +97,38 @@ public class BadgeTimes {
         return times/(60*60);
     }
 
-    public float getMax(CardType type, LocalDateTime ldt, LocalDateTime ldtSuperbe) {
-        float max;
+    public float getMax(CardType type, LocalDateTime[] ldt, LocalDateTime ldtSuperbe) {
+        float max = 0;
+        float perDay = OwnSettings.getTimePerDay();
+        Boolean[] daysToWork = OwnSettings.getWeeks();
         if (ldt == null) {
-            max = OwnSettings.getTimePerDay();
+
+                switch(type){
+                    case DAY:
+                        return perDay;
+                    case WEEK:
+                        return perDay * workingDays();
+                    case MONTH:
+                        return perDay * getDaysOfMonth(ldtSuperbe, daysToWork);
+                    default:
+                        return perDay;
+
+            }
         } else {
-            max = dbh.getBadgeTimeMax(ldt);
+            int i = 0;
+            for (LocalDateTime dow : ldt) {
+                if (dow == null) {
+                    if (daysToWork[i%7]) {
+                        max = max + perDay;
+                    }
+                } else {
+                    max = max + dbh.getBadgeTimeMax(dow);
+                }
+
+            }
+
         }
+        /*
         switch(type){
             case DAY:
                 return max;
@@ -114,6 +139,8 @@ public class BadgeTimes {
             default:
                 return max;
         }
+        */
+        return max;
     }
 
     private long workingDays() {
@@ -127,7 +154,7 @@ public class BadgeTimes {
         return lauf;
     }
 
-    private int getDaysOfMonth(LocalDateTime ldt){
+    private int getDaysOfMonth(LocalDateTime ldt, Boolean[] daysToWork){
         //TODO implement something like this:
         // although realistically this method should return
         // the number of workdays per month -> highly variable
@@ -142,6 +169,20 @@ public class BadgeTimes {
             remainingDays--;
         }
          */
+        int count = 0;
+        LocalDateTime local = ldt.withDayOfMonth(1);
+        LocalDateTime local2 = local;
+
+        while (local.getMonth()==local2.getMonth()) {
+            if (daysToWork[local2.getDayOfWeek().getValue()-1]) {
+                count++;
+            }
+            local2 = local2.plusDays(1);
+        }
+
+        return count;
+
+        /*
         switch(ldt.getMonth()){
             case JANUARY:
             case MARCH:
@@ -161,12 +202,13 @@ public class BadgeTimes {
                 default:
                     return 31;
         }
+        */
     }
 
 
     public void addBadgeTime(LocalDateTime ldt, int daysCode) {
         times.add(ldt);
-        dbh.insertBadgeTime(ldt, 1 , daysCode);
+        dbh.insertBadgeTime(ldt, OwnSettings.getTimePerDay() , daysCode);
     }
 
     public void removeWithValue(LocalDateTime localDateTime) {
@@ -204,12 +246,58 @@ public class BadgeTimes {
     }
 
 
-    public LocalDateTime lookForBadgedTime(LocalDateTime ldt) {
-        ArrayList<LocalDateTime> arr = getTimeStampsInDate(ldt.toLocalDate());
-        if (arr.size()==0) {
-            return null;
-        } else {
-            return arr.get(arr.size()-1);
+    public LocalDateTime[] lookForBadgedTime(LocalDateTime ldt, CardType ct) {
+        LocalDateTime[] arr = null;
+        ArrayList<LocalDateTime> local;
+        switch (ct) {
+            case DAY:
+                arr = new LocalDateTime[1];
+                local = getTimeStampsInDate(ldt.toLocalDate());
+                if (local.size()>0) {
+                    arr[0] = local.get(0);
+                } else {
+                    arr[0] = null;
+                }
+                break;
+            case WEEK:
+                arr = new LocalDateTime[7];
+                int i = 0;
+                for (DayOfWeek dow : DayOfWeek.values()) {
+                    local = getTimeStampsInDate(ldt.toLocalDate());
+                    if (local.size()>0) {
+                        arr[i] = local.get(0);
+                    } else {
+                        arr[i] = null;
+                    }
+                    i++;
+                }
+                break;
+            case MONTH:
+
+                LocalDate startDate = ldt.withDayOfMonth(1).toLocalDate();
+                int daysBetween = startDate.lengthOfMonth();
+                arr = new LocalDateTime[daysBetween];
+                for (int j = 0;j<daysBetween;j++) {
+                    local = getTimeStampsInDate(startDate.plusDays(j));
+                    if (local.size()>0) {
+                        arr[j] = local.get(0);
+                    } else {
+                        arr[j] = null;
+                    }
+                }
+                break;
         }
+        Boolean atleast1EleGood = false;
+        for (LocalDateTime checkNull : arr) {
+            if (checkNull!=null) {
+                atleast1EleGood = true;
+            }
+        }
+        if (atleast1EleGood) {
+            return arr;
+        } else {
+            return null;
+        }
+
     }
 }

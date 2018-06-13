@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainActivityLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@drawable/color_change">
+    android:background="@color/colorPrimaryBackground">
 
     <include
     android:id="@+id/app_bar"
@@ -41,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="@string/noLastTime" />
+                android:text="@string/noLastTime"
+                android:drawable="@android:color/holo_orange_dark" />
 
         </android.support.v7.widget.CardView>
 

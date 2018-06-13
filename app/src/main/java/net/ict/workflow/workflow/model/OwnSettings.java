@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import net.ict.workflow.workflow.Converter;
 import net.ict.workflow.workflow.R;
 
+import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;

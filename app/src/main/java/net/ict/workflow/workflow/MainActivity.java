@@ -1,5 +1,7 @@
 package net.ict.workflow.workflow;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -32,9 +34,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -165,6 +170,12 @@ public class  MainActivity extends AppCompatActivity {
             user.addBadgeTime(now, OwnSettings.getDaysCode());
             TextView textView = findViewById(R.id.hinweis);
             textView.setText(Converter.convertLocalDateTime(now));
+
+
+
+
+            animateBackground();
+
             /*
             Parcelable[] rawMsg = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage[] msg;
@@ -186,6 +197,35 @@ public class  MainActivity extends AppCompatActivity {
             displayMessages(msg);
             */
         }
+    }
+
+    public void animateBackground() {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        a.reset();
+        TextView tv = (TextView) findViewById(R.id.hinweis);
+        tv.clearAnimation();
+        tv.startAnimation(a);
+
+
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.mainActivityLayout);
+
+        final int from = ContextCompat.getColor(this, R.color.colorPrimaryBackground);
+        final int to   = ContextCompat.getColor(this, R.color.colorPrimaryBackgroundAnimatedTo);
+        final int back   = ContextCompat.getColor(this, R.color.colorPrimaryBackground);
+
+        ValueAnimator anim = new ValueAnimator();
+        anim.setIntValues(from, to, back);
+        anim.setEvaluator(new ArgbEvaluator());
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                rl.setBackgroundColor((Integer)valueAnimator.getAnimatedValue());
+            }
+        });
+
+        anim.setDuration(4000);
+        anim.start();
+
     }
 
 
@@ -263,6 +303,7 @@ public class  MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_login) {
+            this.animateBackground();
             Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
             loggedIn = true;
             if (loggedIn) {
