@@ -5,6 +5,7 @@ package net.ict.workflow.workflow;
         import java.time.LocalDateTime;
         import java.time.format.DateTimeFormatter;
         import net.ict.workflow.workflow.model.DateFormats;
+        import net.ict.workflow.workflow.model.OwnSettings;
 
 public class Converter {
 
@@ -24,7 +25,7 @@ public class Converter {
     }
 
     public static Boolean[] getWeekDays() {
-        Boolean[] weekDays = new Boolean[7];
+        Boolean[] weekDays = OwnSettings.getWeeks();
         int setting = 113;
         int i = 0;
         while (i<=6) {
@@ -38,5 +39,15 @@ public class Converter {
             i++;
         }
         return weekDays;
+    }
+
+    public static int getIntWeekDays(Boolean[] weeks) {
+        int id = 0;
+        for (int i=0;i<weeks.length;i++) {
+            if (weeks[i]) {
+                id = id + (int) (Math.pow(2, i));
+            }
+        }
+        return id;
     }
 }

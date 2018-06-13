@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import net.ict.workflow.workflow.model.App;
+import net.ict.workflow.workflow.model.OwnSettings;
 import net.ict.workflow.workflow.model.User;
 
 import java.time.LocalDateTime;
@@ -38,9 +40,9 @@ public class AddTimeAcitivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-
         ldt = (LocalDateTime)intent.getSerializableExtra(MainActivity.INTENT_CHOOSEN_DATE);
         user = new User(ldt, this);
+
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
@@ -58,6 +60,7 @@ public class AddTimeAcitivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
+
     protected void addActionListeners() {
         Button but = (Button) findViewById(R.id.confirmButton);
         but.setOnClickListener(buttonConfirmListener);
@@ -69,7 +72,8 @@ public class AddTimeAcitivity extends AppCompatActivity {
         public void onClick(View v) {
             TimePicker tp = (TimePicker) findViewById(R.id.timepicker);
             LocalDateTime newTime = ldt.toLocalDate().atTime(tp.getHour(), tp.getMinute());
-            User.addBadgeTime(newTime);
+            int daysCode = OwnSettings.getDaysCode();
+            User.addBadgeTime(newTime, daysCode);
             Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
             intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
             finish();

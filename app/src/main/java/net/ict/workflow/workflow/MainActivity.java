@@ -40,8 +40,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import net.ict.workflow.workflow.model.App;
 import net.ict.workflow.workflow.model.BadgeTimes;
 import net.ict.workflow.workflow.model.CardType;
+import net.ict.workflow.workflow.model.OwnSettings;
 import net.ict.workflow.workflow.model.User;
 import net.ict.workflow.workflow.record.NdefMessageParser;
 import net.ict.workflow.workflow.record.ParsedNdefRecord;
@@ -77,6 +79,9 @@ public class  MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        App.setContext(this);
+
+        OwnSettings.getDaysCode();
 
         textView = (TextView) findViewById(R.id.hinweis);
         nfcswitch = findViewById(R.id.nfcswitch);
@@ -91,7 +96,6 @@ public class  MainActivity extends AppCompatActivity {
         }
 
         //user.addBadgeTime(LocalDateTime.now());
-
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         LinearLayoutManager layoutManager

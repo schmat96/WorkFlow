@@ -72,7 +72,9 @@ public class BadgeTimesActivity extends AppCompatActivity {
     private View.OnClickListener buttonUpOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            changeViewBadgesTimes(user.getChoosenDate());
+            Intent intent = new Intent(getApplicationContext(), AddTimeAcitivity.class);
+            intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
+            startActivity(intent);
         }
     };
 
