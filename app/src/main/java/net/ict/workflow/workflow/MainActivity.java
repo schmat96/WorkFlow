@@ -65,7 +65,6 @@ public class  MainActivity extends AppCompatActivity {
 
 
     private NfcAdapter nfcAdapter;
-    private Switch nfcswitch;
     private TextView textView;
     private RecyclerView recyclerView;
     private SnapHelper snapHelper;
@@ -84,7 +83,6 @@ public class  MainActivity extends AppCompatActivity {
         OwnSettings.getDaysCode();
 
         textView = (TextView) findViewById(R.id.hinweis);
-        nfcswitch = findViewById(R.id.nfcswitch);
 
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -107,14 +105,6 @@ public class  MainActivity extends AppCompatActivity {
         setRecycleView();
 
         setNFCAdapter();
-
-
-        nfcswitch.setOnCheckedChangeListener(new switchListener());
-
-        //if(nfcAdapter != null){
-            //handleNFCIntent(getIntent());
-        //}
-
     }
 
     @Override
@@ -147,25 +137,29 @@ public class  MainActivity extends AppCompatActivity {
     }
 
     public void setNFCAdapter(){
-        Log.d("NFCDemo", "Checking for NFC activated");
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
         if(nfcAdapter != null){
             handleNFCIntent(getIntent());
         } else {
-            textView.setText("This device doesn't support NFC.");
+            textView.setText(R.string.noNFC);
             textView.setVisibility(View.VISIBLE);
-            nfcswitch.setVisibility(View.GONE);
         }
     }
 
     private void handleNFCIntent(Intent intent) {
         String action = intent.getAction();
-        Log.e("NFCDemo", action);
 
         if(NfcAdapter.ACTION_TAG_DISCOVERED.equals(action)
                 || NfcAdapter.ACTION_TECH_DISCOVERED.equals(action)
                 || NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
+            // on successful scan, save current time
+            LocalDateTime now = LocalDateTime.now();
+            user.addBadgeTime(now, OwnSettings.getDaysCode());
+            TextView textView = findViewById(R.id.hinweis);
+            textView.setText(Converter.convertLocalDateTime(now));
+            
+            /*
             Parcelable[] rawMsg = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage[] msg;
 
@@ -182,14 +176,14 @@ public class  MainActivity extends AppCompatActivity {
                 NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, id, payload);
                 NdefMessage message = new NdefMessage(new NdefRecord[]{record});
                 msg = new NdefMessage[] {message};
-                Log.e("Inside", msg.toString());
             }
             displayMessages(msg);
+            */
         }
     }
 
 
-
+/*
     private void displayMessages(NdefMessage[] msg){
         if(msg == null || msg.length == 0){
             return;
@@ -212,7 +206,7 @@ public class  MainActivity extends AppCompatActivity {
         startActivity(intent);
         Log.e("finalMessage", builder.toString());
         //Log.v("textView", text.getText().toString());
-    }
+    }*/
 
     private void startNFCSensor(Activity activity, NfcAdapter adapter) {
         Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
@@ -223,19 +217,6 @@ public class  MainActivity extends AppCompatActivity {
 
 
         TextView textview = (TextView) findViewById(R.id.hinweis);
-
-        if(nfcAdapter != null){
-
-            if(!nfcAdapter.isEnabled()){
-                textview.setVisibility(View.GONE);
-                nfcswitch.setVisibility(View.VISIBLE);
-                nfcswitch.setChecked(false);
-                //Toast.makeText(this, "NFC is disabled.", Toast.LENGTH_LONG);
-            } else {
-                nfcswitch.setChecked(true);
-                //Toast.makeText(this, "NFC is activated.", Toast.LENGTH_LONG);
-            }
-        }
 
         IntentFilter[] filters = new IntentFilter[1];
         String[][] techList = new String[][]{};

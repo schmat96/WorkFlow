@@ -66,6 +66,7 @@ public class BadgeTimesActivity extends AppCompatActivity {
     public void changeViewBadgesTimes(LocalDateTime ldt) {
         Intent intent = new Intent(getApplicationContext(), EditTimeActivity.class);
         intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
+        finish();
         startActivity(intent);
     }
 
@@ -74,6 +75,7 @@ public class BadgeTimesActivity extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), AddTimeAcitivity.class);
             intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
+            finish();
             startActivity(intent);
         }
     };

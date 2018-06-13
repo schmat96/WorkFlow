@@ -11,4 +11,6 @@
     <string name="theme">Theme</string>
     <string name="preferencesWorkDays">Arbeitstage</string>
     <string name="preferencesWorkDaysDescription">Wähle aus an welchen Tagen du arbeitest</string>
+    <string name="noNFC">This Device doesn\'t support NFC!</string>
+    <string name="noLastTime">no last time scanned</string>
 </resources>
