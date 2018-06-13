@@ -54,18 +54,21 @@ public class Bar extends LinearLayout {
 
         Boolean left = true;
 
-        while (valueLeft>sum) {
-            valueLeft = valueLeft - sum;
+        if (sum > valueLeft) {
+            while (valueLeft>sum) {
+                valueLeft = valueLeft - sum;
 
-            if (left) {
-                switchColors (linearLayoutLeft,linearLayoutRight);
-                manipulateColor(linearLayoutLeft);
-            } else {
-                switchColors (linearLayoutRight, linearLayoutLeft);
-                manipulateColor(linearLayoutRight);
+                if (left) {
+                    switchColors (linearLayoutLeft,linearLayoutRight);
+                    manipulateColor(linearLayoutLeft);
+                } else {
+                    switchColors (linearLayoutRight, linearLayoutLeft);
+                    manipulateColor(linearLayoutRight);
+                }
+                left = !left;
             }
-            left = !left;
         }
+
 
         if (left) {
             setValuesLinearLayout(linearLayoutLeft,valueLeft);

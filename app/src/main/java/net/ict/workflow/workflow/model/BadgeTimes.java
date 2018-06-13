@@ -25,7 +25,6 @@ public class BadgeTimes {
     public BadgeTimes(Context context) {
         dbh = new DatabaseHelper(context);
         times = dbh.getAllBadgeTimes();
-
         //times = new TreeSet<>();
     }
 
@@ -99,7 +98,7 @@ public class BadgeTimes {
     }
 
     public float getMax(CardType type, LocalDateTime ldt) {
-        long max = dbh.getBadgeTimeMax(ldt);
+        float max = dbh.getBadgeTimeMax(ldt);
         switch(type){
             case DAY:
                 return max;
@@ -162,7 +161,7 @@ public class BadgeTimes {
 
     public void addBadgeTime(LocalDateTime ldt) {
         times.add(ldt);
-        dbh.insertBadgeTime(ldt, 0 , 133);
+        dbh.insertBadgeTime(ldt, 1 , 133);
     }
 
     public void removeWithValue(LocalDateTime localDateTime) {

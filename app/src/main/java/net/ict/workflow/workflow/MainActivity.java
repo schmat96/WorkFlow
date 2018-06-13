@@ -90,7 +90,7 @@ public class  MainActivity extends AppCompatActivity {
             loggedIn = true;
         }
 
-        user.addBadgeTime(LocalDateTime.now());
+        //user.addBadgeTime(LocalDateTime.now());
 
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 

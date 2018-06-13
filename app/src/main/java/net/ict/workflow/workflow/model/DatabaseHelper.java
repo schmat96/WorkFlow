@@ -14,7 +14,7 @@ import java.util.TreeSet;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "BadgeTimes.db";
 
     // badge times statements
@@ -45,7 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BADGETIMES);
         db.execSQL(CREATE_TABLE_HOURS_DAY);
-        insertHoursPerDay(8.24f);
+
     }
 
     @Override
@@ -118,12 +118,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public float getBadgeTimeMax(LocalDateTime localDateTime) {
         SQLiteDatabase db = this.getReadableDatabase();
-
+/*
         String selectQuery = "SELECT * FROM " + TABLE_BADGETIMES + " WHERE " + ATTR_TIME
                 + " = '" + localDateTime.toString() + "'";
+*/
+        String selectQuery = "SELECT * FROM " + TABLE_BADGETIMES;
 
         Cursor c = db.rawQuery(selectQuery, null);
-        float dailyMax = 0;
+        float dailyMax = 5.24f;
+
         if (c != null && c.moveToFirst()) {
             dailyMax = c.getFloat(c.getColumnIndex(ATTR_HOURS_DAY_FK));
             c.close();
