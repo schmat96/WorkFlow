@@ -25,6 +25,8 @@ public class BadgeTimes {
     public BadgeTimes(Context context) {
         dbh = new DatabaseHelper(context);
         times = dbh.getAllBadgeTimes();
+
+        //times = new TreeSet<>();
     }
 
     public ArrayList<LocalDateTime> getTimeStampsInDate(LocalDate date) {
@@ -176,7 +178,7 @@ public class BadgeTimes {
 
     public float getBadgedTime(CardType ct, LocalDateTime ldt) {
         float max = 0f;
-        long daysBetween = 1;
+        /*long daysBetween = 1;
         LocalDate startDate;
         switch (ct) {
             case DAY:
@@ -194,7 +196,7 @@ public class BadgeTimes {
                 daysBetween = startDate.lengthOfMonth();
                 max = getSecondsBetweenDays(daysBetween, startDate);
                 break;
-        }
+        }*/
         return max;
 
 
