@@ -6,13 +6,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import net.ict.workflow.workflow.Converter;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.TreeSet;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
     private static final String DATABASE_NAME = "BadgeTimes.db";
 
     // badge times statements
@@ -35,26 +37,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + ATTR_ID_HOURS_DAY + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ATTR_MAX + " REAL)";
     private static final String DROP_TABLE_HOURS_DAY = "DROP TABLE IF EXISTS " + TABLE_HOURS_DAY;
 
-    // TODO delete this once safe to do so
-    /*
-    // days per week statements
-    private static final String TABLE_DAYS_WEEK = "days_week";
-    private static final String ATTR_ID_DAYS_WEEK = "id_days_week";
-    private static final String ATTR_MONDAY = "monday";
-    private static final String ATTR_TUESDAY = "tuesday";
-    private static final String ATTR_WEDNESDAY = "wednesday";
-    private static final String ATTR_THURSDAY = "thursday";
-    private static final String ATTR_FRIDAY = "friday";
-    private static final String ATTR_SATURDAY = "saturday";
-    private static final String ATTR_SUNDAY = "sunday";
-
-
-    private static final String CREATE_TABLE_DAYS_WEEK = "CREATE TABLE " + TABLE_DAYS_WEEK + " ("
-            + ATTR_ID_DAYS_WEEK + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ATTR_MONDAY + " INTEGER, " + ATTR_TUESDAY
-            + " INTEGER, " + ATTR_WEDNESDAY + " INTEGER, " + ATTR_THURSDAY + " INTEGER, " + ATTR_FRIDAY + " INTEGER, "
-            + ATTR_SATURDAY + " INTEGER, " + ATTR_SUNDAY + " INTEGER)";
-    private static final String DROP_TABLE_DAYS_WEEK = "DROP TABLE IF EXISTS " + TABLE_DAYS_WEEK;
-    */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -63,16 +45,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BADGETIMES);
         db.execSQL(CREATE_TABLE_HOURS_DAY);
-        // TODO delete this once safe to do so
-        //db.execSQL(CREATE_TABLE_DAYS_WEEK);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(DROP_TABLE_BADGETIMES);
         db.execSQL(DROP_TABLE_HOURS_DAY);
-        // TODO delete this once safe to do so
-        //db.execSQL(DROP_TABLE_DAYS_WEEK);
         onCreate(db);
     }
 
@@ -88,11 +66,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(ATTR_TIME, localDateTime.toString());
+        values.put(ATTR_TIME, Converter.localDateTimeToString(localDateTime));
         values.put(ATTR_HOURS_DAY_FK, hoursId);
         values.put(ATTR_DAYS_WEEK, daysCode);
 
         long currentId = db.insert(TABLE_BADGETIMES, null, values);
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return currentId;
@@ -106,35 +85,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(ATTR_MAX, hours);
 
         long currentId = db.insert(TABLE_HOURS_DAY, null, values);
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return currentId;
     }
-
-    // TODO delete this once safe to do so
-    // possibly going to need to update this...
-    /*
-    // INSERT DAYS_WEEK
-    public long insertDaysPerWeek(boolean[] days) {
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        int[] ints;
-        ints = getBoolToInt(days);
-        ContentValues values = new ContentValues();
-        values.put(ATTR_MONDAY, ints[0]);
-        values.put(ATTR_TUESDAY, ints[1]);
-        values.put(ATTR_WEDNESDAY, ints[2]);
-        values.put(ATTR_THURSDAY, ints[3]);
-        values.put(ATTR_FRIDAY, ints[4]);
-        values.put(ATTR_SATURDAY, ints[5]);
-        values.put(ATTR_SUNDAY, ints[6]);
-
-        long currentId = db.insert(TABLE_DAYS_WEEK, null, values);
-        db.close();
-
-        return currentId;
-    }
-    */
 
     // --------------------------------------------------------------------------
     // SELECT STATEMENTS
@@ -150,12 +105,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()) {
             do {
                 String time = c.getString(c.getColumnIndex(ATTR_TIME));
-                DateTimeFormatter formatter;
-                formatter = DateTimeFormatter.ofPattern("dd MM yyyy");
-                allBadgeTimes.add(LocalDateTime.parse(time, formatter));
+                allBadgeTimes.add(Converter.stringToLocalDateTime(time));
             } while (c.moveToNext());
         }
         c.close();
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return allBadgeTimes;
@@ -174,6 +128,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
 
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return dailyMax;
@@ -192,6 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
 
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return daySetCode;
@@ -206,6 +162,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int count = cursor.getCount();
         cursor.close();
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return count;
@@ -225,6 +182,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.close();
         }
 
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return dailyMax;
@@ -239,56 +197,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         int count = cursor.getCount();
         cursor.close();
+        // TODO ugly, re-enable once fixed
         db.close();
 
         return count;
     }
-
-    // TODO delete this once safe to do so
-    /*
-    // SELECT DAYS_WEEK
-    public boolean[] getDaysPerWeek(long id) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selectQuery = "SELECT * FROM " + TABLE_DAYS_WEEK + " WHERE " + ATTR_ID_DAYS_WEEK
-                + " = " + id;
-
-        Cursor c = db.rawQuery(selectQuery, null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-
-        int[] days = new int[7];
-        days[0] = c.getInt(c.getColumnIndex(ATTR_MONDAY));
-        days[1] = c.getInt(c.getColumnIndex(ATTR_TUESDAY));
-        days[2] = c.getInt(c.getColumnIndex(ATTR_WEDNESDAY));
-        days[3] = c.getInt(c.getColumnIndex(ATTR_THURSDAY));
-        days[4] = c.getInt(c.getColumnIndex(ATTR_FRIDAY));
-        days[5] = c.getInt(c.getColumnIndex(ATTR_SATURDAY));
-        days[6] = c.getInt(c.getColumnIndex(ATTR_SUNDAY));
-
-        boolean[] daySet = getIntToBool(days);
-
-        c.close();
-        db.close();
-
-        return daySet;
-    }
-
-    public int getDaysPerWeekCount() {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String countQuery = "SELECT  * FROM " + TABLE_DAYS_WEEK;
-
-        Cursor cursor = db.rawQuery(countQuery, null);
-
-        int count = cursor.getCount();
-        cursor.close();
-        db.close();
-
-        return count;
-    }
-    */
 
     // --------------------------------------------------------------------------
     // UPDATE STATEMENTS
@@ -300,10 +213,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(ATTR_TIME, localDateTimeNew.toString());
 
+        int id = db.update(TABLE_BADGETIMES, values, ATTR_TIME + " = ?",
+                new String[] { String.valueOf(localDateTimeOld)});
+
+        // TODO ugly, re-enable once fixed
         db.close();
 
-        return db.update(TABLE_BADGETIMES, values, ATTR_TIME + " = ?",
-                new String[] { String.valueOf(localDateTimeOld)});
+        return id;
     }
 
     // --------------------------------------------------------------------------
@@ -315,5 +231,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.delete(TABLE_BADGETIMES, ATTR_TIME +  " = ?",
                 new String[] { String.valueOf(localDateTime)});
+
+        // TODO ugly, re-enable once fixed
+        db.close();
     }
 }

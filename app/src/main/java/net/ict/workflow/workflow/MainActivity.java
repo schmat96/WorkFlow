@@ -323,7 +323,7 @@ public class  MainActivity extends AppCompatActivity {
             cards[2] = new Cards(user, CardType.MONTH);
         }
         Log.e("User", "finished loading "+(System.currentTimeMillis()-timecurrent));
-        cardAdapter.notifyDataSetChanged();
+        //cardAdapter.notifyDataSetChanged();
     }
 
 

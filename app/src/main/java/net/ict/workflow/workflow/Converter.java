@@ -1,11 +1,26 @@
 package net.ict.workflow.workflow;
 
+        import android.util.Log;
+
         import java.time.LocalDateTime;
+        import java.time.format.DateTimeFormatter;
+        import net.ict.workflow.workflow.model.DateFormats;
 
 public class Converter {
 
     public static String convertLocalDateTime(LocalDateTime localDateTime) {
         return localDateTime.getDayOfWeek()+":"+localDateTime.getMonth()+":"+localDateTime.getYear()+" - "+localDateTime.getHour()+":"+localDateTime.getMinute();
+    }
+
+    public static String localDateTimeToString(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateFormats.DB_FORMAT);
+        return localDateTime.format(formatter);
+    }
+
+    public static LocalDateTime stringToLocalDateTime(String stringDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateFormats.DB_FORMAT);
+        Log.e("DB_Parse_String", stringDate);
+        return LocalDateTime.parse(stringDate, formatter);
     }
 
     public static Boolean[] getWeekDays() {
