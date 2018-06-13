@@ -41,19 +41,38 @@
         </activity>
 
         <activity android:name=".NfcDetails"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".BadgeTimesActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".BadgeTimesActivityWeek"
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".BadgeTimesActivityMonth"></activity>
+
+        <activity android:name=".BadgeTimesActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity android:name=".BadgeTimesActivityWeek"
+            android:parentActivityName=".BadgeTimesActivityMonth"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".BadgeTimesActivityMonth"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".AddTimeAcitivity"
-            android:screenOrientation="portrait" ></activity>
+            android:parentActivityName=".BadgeTimesActivity"
+            android:screenOrientation="portrait" >
+
+        </activity>
         <activity android:name=".EditTimeActivity"
-            android:screenOrientation="portrait"></activity>
+            android:parentActivityName=".BadgeTimesActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
 
 

@@ -37,7 +37,7 @@ public class BadgeTimesRecyclerWeek extends RecyclerView.Adapter<BadgeTimesRecyc
     public BadgeTimesRecyclerWeek.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View cardViewLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.badge_time_week, parent, false);
         BadgeTimesRecyclerWeek.ViewHolder viewHolder = new BadgeTimesRecyclerWeek.ViewHolder(cardViewLayout);
-        //TODO HERE set onclick listener for badgetime single day view
+        // on touch: go to single day view
         cardViewLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

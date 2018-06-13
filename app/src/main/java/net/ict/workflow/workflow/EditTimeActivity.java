@@ -56,6 +56,11 @@ public class EditTimeActivity extends AppCompatActivity {
         but.setOnClickListener(buttonConfirmListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     public View.OnClickListener buttonConfirmListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -64,6 +69,7 @@ public class EditTimeActivity extends AppCompatActivity {
             User.updateBadgeTime(ldt, newTime);
             Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
             intent.putExtra(INTENT_CHOOSEN_DATE, ldt);
+            finish();
             startActivity(intent);
         }
     };
