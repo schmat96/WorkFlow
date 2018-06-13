@@ -45,6 +45,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BADGETIMES);
         db.execSQL(CREATE_TABLE_HOURS_DAY);
+        insertHoursPerDay(8.24f);
     }
 
     @Override
@@ -115,16 +116,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return allBadgeTimes;
     }
 
-    public long getBadgeTimeMax(LocalDateTime localDateTime) {
+    public float getBadgeTimeMax(LocalDateTime localDateTime) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + TABLE_BADGETIMES + " WHERE " + ATTR_TIME
                 + " = '" + localDateTime.toString() + "'";
 
         Cursor c = db.rawQuery(selectQuery, null);
-        long dailyMax = 0;
+        float dailyMax = 0;
         if (c != null && c.moveToFirst()) {
-            dailyMax = c.getInt(c.getColumnIndex(ATTR_HOURS_DAY_FK));
+            dailyMax = c.getFloat(c.getColumnIndex(ATTR_HOURS_DAY_FK));
             c.close();
         }
 
