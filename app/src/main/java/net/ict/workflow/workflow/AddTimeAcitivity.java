@@ -67,7 +67,7 @@ public class AddTimeAcitivity extends AppCompatActivity {
         public void onClick(View v) {
             TimePicker tp = (TimePicker) findViewById(R.id.timepicker);
             LocalDateTime newTime = ldt.toLocalDate().atTime(tp.getHour(), tp.getMinute());
-            int daysCode = OwnSettings.getDaysCode(App.getContext());
+            int daysCode = OwnSettings.getDaysCode();
             User.addBadgeTime(newTime, daysCode);
             Intent intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
             intent.putExtra(INTENT_CHOOSEN_DATE, ldt);

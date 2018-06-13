@@ -81,7 +81,7 @@ public class  MainActivity extends AppCompatActivity {
 
         App.setContext(this);
 
-        OwnSettings.getDaysCode(App.getContext());
+        OwnSettings.getDaysCode();
 
         textView = (TextView) findViewById(R.id.hinweis);
         nfcswitch = findViewById(R.id.nfcswitch);
@@ -96,7 +96,6 @@ public class  MainActivity extends AppCompatActivity {
         }
 
         //user.addBadgeTime(LocalDateTime.now());
-
         //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         LinearLayoutManager layoutManager
