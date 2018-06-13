@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <MultiSelectListPreference android:title="@string/preferencesWorkDays"
+        android:key="DayOfWeek"
+        android:summary="@string/preferencesWorkDaysDescription"
+        android:defaultValue="@array/empty_array"
+        android:entries="@array/daysOfWeek"
+        android:entryValues="@array/daysOfWeekValues" />
+    <ListPreference android:title="List Preference"
+        android:key="Themes"
+        android:summary="Select Day of the Week"
+        android:defaultValue="@array/themes"
+        android:entries="@array/themesValues"
+        android:entryValues="@array/daysOfWeekValues" />
+</PreferenceScreen>

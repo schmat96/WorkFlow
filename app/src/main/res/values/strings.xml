@@ -9,4 +9,6 @@
     <string name="pensum">Pensum</string>
     <string name="language">Sprache</string>
     <string name="theme">Theme</string>
+    <string name="preferencesWorkDays">Arbeitstage</string>
+    <string name="preferencesWorkDaysDescription">Wähle aus an welchen Tagen du arbeitest</string>
 </resources>

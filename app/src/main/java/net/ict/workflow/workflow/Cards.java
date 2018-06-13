@@ -58,6 +58,7 @@ public class Cards {
 
     public float getZeit() {
         return User.getBadgeTime(cardType, this.user.getChoosenDate());
+
     }
 
     public void setCardType(CardType cardType) {

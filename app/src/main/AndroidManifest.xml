@@ -25,16 +25,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
             <intent-filter>
                 <action android:name="android.nfc.action.TAG_DISCOVERED"/>
                 <action android:name="android.nfc.action.TECH_DISCOVERED"/>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
 
         <activity android:name=".NfcDetails"
@@ -49,7 +52,10 @@
         <activity android:name=".EditTimeActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".SettingsActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+
+        </activity>
 
 
 

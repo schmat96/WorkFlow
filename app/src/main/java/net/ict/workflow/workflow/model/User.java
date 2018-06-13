@@ -57,7 +57,6 @@ public class User {
             default:
                 this.choosenDate = this.choosenDate.plusDays(1);
         }
-
     }
 
     public void minusDate(CardType pos) {

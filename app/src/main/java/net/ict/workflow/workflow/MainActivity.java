@@ -346,6 +346,7 @@ public class  MainActivity extends AppCompatActivity {
 
     public void buttonUpClicked() {
         user.plusDate(findScrollPosition());
+        reloadCard(null);
         cardAdapter.notifyDataSetChanged();
     }
 
