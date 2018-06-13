@@ -26,18 +26,6 @@ public class Converter {
 
     public static Boolean[] getWeekDays() {
         Boolean[] weekDays = OwnSettings.getWeeks();
-        int setting = 113;
-        int i = 0;
-        while (i<=6) {
-            if (setting % 2 == 0) {
-                weekDays[i] = false;
-            } else {
-                weekDays[i] = true;
-                setting--;
-            }
-            setting = setting / 2;
-            i++;
-        }
         return weekDays;
     }
 
