@@ -105,6 +105,28 @@ public class User {
         return 0f;
     }
 
+    /**
+     * @deprecated use {@link #getBadgeTime(CardType ct, LocalDateTime ldt)} instead.
+     */
+    @Deprecated
+    public static float getBadgedTimeMonth(LocalDateTime ldt) {
+        if (badgeTimes != null) {
+            return badgeTimes.getBadgedTimeMonth(ldt);
+        }
+        return 0f;
+    }
+
+    /**
+     * @deprecated use {@link #getBadgeTime(CardType ct, LocalDateTime ldt)} instead.
+     */
+    @Deprecated
+    public static float getBadgedTimeWeek(LocalDateTime ldt) {
+        if (badgeTimes != null) {
+            return badgeTimes.getBadgedTimeWeek(ldt);
+        }
+        return 0f;
+    }
+
     public static float getMaxTime(CardType ct, LocalDateTime ldt) {
         if (badgeTimes != null) {
             return badgeTimes.getMax(ct, ldt);

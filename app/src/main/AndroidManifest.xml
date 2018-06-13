@@ -45,10 +45,12 @@
         <activity android:name=".BadgeTimesActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".BadgeTimesActivityWeek"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".BadgeTimesActivityMonth"></activity>
         <activity android:name=".AddTimeAcitivity"
-            android:screenOrientation="portrait" android:parentActivityName=".MainActivity"></activity>
+            android:screenOrientation="portrait" ></activity>
         <activity android:name=".EditTimeActivity"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".SettingsActivity"

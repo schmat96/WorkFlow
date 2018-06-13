@@ -22,15 +22,6 @@
     </string-array>
     <string-array name="empty_array"/>
 
-    <string-array name="themes">
-        <item>Dark</item>
-        <item>Light</item>
-    </string-array>
-
-    <string-array name="themesValues">
-        <item>Dark</item>
-        <item>Light</item>
-    </string-array>
 
 
 

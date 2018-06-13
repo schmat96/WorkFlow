@@ -178,7 +178,9 @@ public class BadgeTimes {
 
     public float getBadgedTime(CardType ct, LocalDateTime ldt) {
         float max = 0f;
-        /*long daysBetween = 1;
+        return max;
+        /*
+        long daysBetween = 1;
         LocalDate startDate;
         switch (ct) {
             case DAY:
@@ -196,9 +198,10 @@ public class BadgeTimes {
                 daysBetween = startDate.lengthOfMonth();
                 max = getSecondsBetweenDays(daysBetween, startDate);
                 break;
-        }*/
-        return max;
+        }
 
+        return max;
+        */
 
     }
 

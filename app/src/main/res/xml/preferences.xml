@@ -7,10 +7,5 @@
         android:defaultValue="@array/empty_array"
         android:entries="@array/daysOfWeek"
         android:entryValues="@array/daysOfWeekValues" />
-    <ListPreference android:title="List Preference"
-        android:key="Themes"
-        android:summary="Select Day of the Week"
-        android:defaultValue="@array/themes"
-        android:entries="@array/themesValues"
-        android:entryValues="@array/daysOfWeekValues" />
+
 </PreferenceScreen>

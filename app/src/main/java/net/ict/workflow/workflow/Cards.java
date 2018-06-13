@@ -15,6 +15,7 @@ public class Cards {
     private User user;
     private CardType cardType;
 
+
     public Cards(User user, CardType cardType) {
         this.user = user;
         this.cardType = cardType;
@@ -57,7 +58,20 @@ public class Cards {
     }
 
     public float getZeit() {
-        return User.getBadgeTime(cardType, this.user.getChoosenDate());
+        float zeit = 0f;
+        switch (cardType) {
+
+            case DAY:
+                zeit = User.getBadgedTimeDay(this.user.getChoosenDate());
+                break;
+            case WEEK:
+                zeit = User.getBadgedTimeWeek(this.user.getChoosenDate());
+                break;
+            case MONTH:
+                zeit = User.getBadgedTimeMonth(this.user.getChoosenDate());
+                break;
+        }
+        return zeit;
 
     }
 
@@ -68,4 +82,5 @@ public class Cards {
     public CardType getCardType() {
         return cardType;
     }
+
 }

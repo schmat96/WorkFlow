@@ -35,7 +35,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull CardAdapter.ViewHolder holder, int position) {
 
         Bar bar = holder.cardView.findViewById(R.id.bar);
-        bar.setValue(dataSet[position].getMax(), dataSet[position].getZeit());
+        bar.setValue(40f, dataSet[position].getZeit());
+
+
 
         TextView tv = holder.cardView.findViewById(R.id.cardViewTitle);
         tv.setText(dataSet[position].title());
