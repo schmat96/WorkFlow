@@ -11,7 +11,7 @@ import net.ict.workflow.workflow.Converter;
 import java.time.LocalDateTime;
 import java.util.TreeSet;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseHelperInterface {
 
     private static final int DATABASE_VERSION = 13;
     private static final String DATABASE_NAME = "BadgeTimes.db";
