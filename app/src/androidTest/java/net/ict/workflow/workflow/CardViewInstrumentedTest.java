@@ -1,5 +1,6 @@
 package net.ict.workflow.workflow;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -9,8 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import net.ict.workflow.workflow.model.DatabaseHelperStub;
+
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +41,7 @@ public class CardViewInstrumentedTest {
 
     @Test
     public void checkCardRecylcerView() {
-        final int EXPECTED_SIZE = 3;
+        final int EXPECTED_SIZE = 1;
         final int[] size = new int[1];
         onView(withId(R.id.card_view_container)).check(matches(new TypeSafeMatcher<View>() {
             @Override
@@ -57,33 +61,13 @@ public class CardViewInstrumentedTest {
 
     @Test
     public void checkCardContainer() {
-        final String EXPECTED_DAY = mActivityRule.getActivity().getApplicationContext().getString(R.string.Day);
-        final String EXPECTED_WEEK = mActivityRule.getActivity().getApplicationContext().getString(R.string.Week);
-        final String EXPECTED_MONTH = mActivityRule.getActivity().getApplicationContext().getString(R.string.Month);
-        final CardView[] day = new CardView[1];
-        final CardView[] week = new CardView[1];
-        final CardView[] month = new CardView[1];
-        onView(withId(R.id.card_view_container)).check(matches(new TypeSafeMatcher<View>() {
-            @Override
-            public boolean matchesSafely(View view) {
-                RecyclerView recyclerView = (RecyclerView) view;
-                day[0] = (CardView) recyclerView.getChildAt(0);
-                week[0] = (CardView) recyclerView.getChildAt(1);
-                month[0] = (CardView) recyclerView.getChildAt(2);
-                return true;
-            }
+        final String EXPECTED_DAY = "Day";
+        final String EXPECTED_WEEK = "Week";
+        final String EXPECTED_MONTH = "Month";
 
-            @Override
-            public void describeTo(Description description) {
-
-            }
-        }));
-        TextView dayView = day[0].findViewById(R.id.cardViewTitle);
-        String dayText = dayView.getText().toString();
-        TextView weekView = week[0].findViewById(R.id.cardViewTitle);
-        String weekText = weekView.getText().toString();
-        TextView monthView = month[0].findViewById(R.id.cardViewTitle);
-        String monthText = monthView.getText().toString();
+        String dayText = mActivityRule.getActivity().getApplicationContext().getString(R.string.Day);
+        String weekText = mActivityRule.getActivity().getApplicationContext().getString(R.string.Week);
+        String monthText = mActivityRule.getActivity().getApplicationContext().getString(R.string.Month);
 
         assertEquals(EXPECTED_DAY, dayText);
         assertEquals(EXPECTED_WEEK, weekText);
