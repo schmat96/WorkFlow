@@ -105,14 +105,18 @@ public class BadgeTimes {
 
                 switch(type){
                     case DAY:
-                        return perDay;
+                        if (daysToWork[ldtSuperbe.getDayOfWeek().getValue()-1]) {
+                            return perDay;
+                        } else {
+                            return 0;
+                        }
+
                     case WEEK:
                         return perDay * workingDays();
                     case MONTH:
                         return perDay * getDaysOfMonth(ldtSuperbe, daysToWork);
                     default:
                         return perDay;
-
             }
         } else {
             int i = 0;
@@ -124,7 +128,7 @@ public class BadgeTimes {
                 } else {
                     max = max + dbh.getBadgeTimeMax(dow);
                 }
-
+                i++;
             }
 
         }
@@ -206,6 +210,7 @@ public class BadgeTimes {
     }
 
 
+
     public void addBadgeTime(LocalDateTime ldt, int daysCode) {
         times.add(ldt);
         dbh.insertBadgeTime(ldt, OwnSettings.getTimePerDay() , daysCode);
@@ -263,7 +268,7 @@ public class BadgeTimes {
                 arr = new LocalDateTime[7];
                 int i = 0;
                 for (DayOfWeek dow : DayOfWeek.values()) {
-                    local = getTimeStampsInDate(ldt.toLocalDate());
+                    local = getTimeStampsInDate(ldt.with(dow).toLocalDate());
                     if (local.size()>0) {
                         arr[i] = local.get(0);
                     } else {
