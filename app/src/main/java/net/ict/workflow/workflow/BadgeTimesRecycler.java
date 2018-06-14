@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.common.io.Resources;
+
 import net.ict.workflow.workflow.model.BadgeTimes;
 import net.ict.workflow.workflow.model.User;
 
@@ -26,9 +28,13 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
     private BadgeTimesActivity badgeTimesActivity;
 
     private boolean inOrOut;
+    private boolean timeError;
 
     public BadgeTimesRecycler(@NonNull User user, BadgeTimesActivity bta) {
         dataSet = User.getTimeStampsInDate(user.getChoosenDate().toLocalDate());
+        if(getItemCount() % 2 != 0) {
+            timeError = true;
+        }
         badgeTimesActivity = bta;
     }
 
@@ -47,20 +53,30 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
     @Override
     public void onBindViewHolder(BadgeTimesRecycler.ViewHolder holder, int position) {
         TextView tv = holder.cardView.findViewById(R.id.badgeTimeTextView);
-        tv.setText(Converter.convertLocalDateTime(dataSet.get(position)));
         ImageView iv = holder.cardView.findViewById(R.id.symbol);
-        if (inOrOut) {
-            iv.setImageResource(R.drawable.arrow_left);
+        if(timeError && position == getItemCount() - 1) {
+            holder.cardView.setBackgroundResource(R.color.wrongTime);
+            tv.setText(badgeTimesActivity.getResources().getString(R.string.wrongTimeRead));
+            iv.clearColorFilter();
         } else {
-            iv.setImageResource(R.drawable.arrow_right);
+            tv.setText(Converter.convertLocalDateTime(dataSet.get(position)));
+            if (inOrOut) {
+                iv.setImageResource(R.drawable.arrow_left);
+            } else {
+                iv.setImageResource(R.drawable.arrow_right);
+            }
+            inOrOut = !inOrOut;
         }
-        inOrOut = !inOrOut;
     }
 
 
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        if(timeError) {
+            return dataSet.size() + 1;
+        } else {
+            return dataSet.size();
+        }
     }
 
     public void removeAtPosition(int pos) {

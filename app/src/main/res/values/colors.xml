@@ -5,4 +5,5 @@
     <color name="colorPrimaryBackground">#c2c2c2</color>
     <color name="colorPrimaryBackgroundAnimatedTo">#d4ff00</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="wrongTime">#CD5C5C</color>
 </resources>

@@ -15,4 +15,5 @@
     <string name="WorkingMinutesDescPref">Wähle aus wieviele Minuten du am Tag arbeitest</string>
     <string name="noNFC">This Device doesn\'t support NFC!</string>
     <string name="noLastTime">no last time scanned</string>
+    <string name="wrongTimeRead">Time in or out is missing!</string>
 </resources>
