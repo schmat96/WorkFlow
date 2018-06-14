@@ -20,7 +20,12 @@ public class BadgeTimes {
 
     private static final String TAG = "MyActivity";
     private static final int WORK_DAYS = 5;
-    private DatabaseHelper dbh;
+    private DatabaseHelperInterface dbh;
+
+    public BadgeTimes() {
+        dbh = new DatabaseHelperStub();
+        times = dbh.getAllBadgeTimes();
+    }
 
     public BadgeTimes(Context context) {
         dbh = new DatabaseHelper(context);
@@ -110,7 +115,6 @@ public class BadgeTimes {
                         } else {
                             return 0;
                         }
-
                     case WEEK:
                         return perDay * workingDays();
                     case MONTH:
