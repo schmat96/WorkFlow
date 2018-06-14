@@ -9,14 +9,19 @@
         android:id="@+id/app_bar"
         layout="@layout/app_bar" />
 
-    <android.support.v7.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:id="@+id/badge_times_week"
-        android:layout_marginTop="@dimen/marginCardView"
-        android:layout_marginBottom="@dimen/marginCardView">
+        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/badge_times_week"
+            android:layout_marginTop="@dimen/marginCardView"
+            android:layout_marginBottom="@dimen/marginCardView">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
