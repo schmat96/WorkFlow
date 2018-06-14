@@ -3,10 +3,13 @@ package net.ict.workflow.workflow.model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import net.ict.workflow.workflow.Converter;
+import net.ict.workflow.workflow.R;
 
 import java.time.LocalDateTime;
 import java.util.TreeSet;
@@ -69,9 +72,8 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseHelperIn
         values.put(ATTR_TIME, Converter.localDateTimeToString(localDateTime));
         values.put(ATTR_HOURS_DAY_FK, hoursId);
         values.put(ATTR_DAYS_WEEK, daysCode);
-
-        long currentId = db.insert(TABLE_BADGETIMES, null, values);
-
+        long currentId = 0;
+        currentId = db.insert(TABLE_BADGETIMES, null, values);
         db.close();
 
         return currentId;

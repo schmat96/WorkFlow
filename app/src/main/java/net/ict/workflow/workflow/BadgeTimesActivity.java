@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -86,7 +87,10 @@ public class BadgeTimesActivity extends AppCompatActivity {
         bar.setValue(User.getMaxTime(CardType.DAY, user.getChoosenDate()), valueBadged);
         TextView tv = (TextView) findViewById(R.id.cardViewTitle);
         Resources res = getResources();
-        float rest = (User.getMaxTime(CardType.DAY, user.getChoosenDate()) - valueBadged);
+        float max = User.getMaxTime(CardType.DAY, user.getChoosenDate());
+        CardView cv = (CardView) findViewById(R.id.addButtonCardView);
+
+        float rest = (max - valueBadged);
         if (rest > 0) {
             String text = String.format("%.2f", rest);
             tv.setText(res.getString(R.string.WorkDay, text, text));

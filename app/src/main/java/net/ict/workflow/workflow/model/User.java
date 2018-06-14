@@ -81,7 +81,12 @@ public class User {
     }
 
     public LocalDateTime getChoosenDate() {
+
         return this.choosenDate;
+    }
+
+    public void setChoosenDate(LocalDateTime ldt) {
+        this.choosenDate = ldt;
     }
 
     public ZoneOffset getZoneOffSet() {
@@ -180,5 +185,12 @@ public class User {
             badgeTimes.updateBadgeTime(oldTime, newTime);
 
         }
+    }
+
+    public static LocalDateTime badgedTimesEven() {
+        if (badgeTimes != null) {
+            return badgeTimes.badgedTimesEven();
+        }
+        return null;
     }
 }

@@ -34,7 +34,18 @@ class SwipeController extends Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        int pos = viewHolder.getAdapterPosition();
+        if (pos>=0) {
+            LocalDateTime ldt = badgeTimesRecycler.getDateAtPosition(pos);
+            if (ldt==null) {
+                return 0;
+            } else {
+                return makeMovementFlags(0, LEFT | RIGHT);
+            }
+        }
         return makeMovementFlags(0, LEFT | RIGHT);
+
+
     }
 
     @Override
@@ -102,12 +113,19 @@ class SwipeController extends Callback {
     }
 
     private void delete(int pos) {
-        badgeTimesRecycler.removeAtPosition(pos);
+        LocalDateTime ldt = badgeTimesRecycler.getDateAtPosition(pos);
+        if (ldt!=null) {
+            badgeTimesRecycler.removeAtPosition(pos);
+        }
+
     }
 
     private void edit(int pos) {
         LocalDateTime ldt = badgeTimesRecycler.getDateAtPosition(pos);
-        badgeTimesActivity.changeViewBadgesTimes(ldt);
+        if (ldt!=null) {
+            badgeTimesActivity.changeViewBadgesTimes(ldt);
+        }
+
     }
 
     private void setTouchDownListener(final Canvas c,

@@ -19,7 +19,7 @@ public class BadgeTimesTest {
     @Before
     public void setup() {
         badgeTimes = new BadgeTimes();
-        ldt = LocalDateTime.of(2018,06,14,3,40);
+        ldt = LocalDateTime.of(2018,06,14,8,30);
     }
 
     @Test
@@ -37,9 +37,27 @@ public class BadgeTimesTest {
 
     @Test
     public void getBadgedTimeTest() {
-        assertEquals(3.0f, badgeTimes.getBadgedTime(CardType.DAY, ldt), 0.0f);
-        assertEquals(4.0f, badgeTimes.getBadgedTime(CardType.DAY, ldt.plusDays(1)), 0.0f);
+        assertEquals(3.5f, badgeTimes.getBadgedTime(CardType.DAY, ldt), 0.0f);
+        assertEquals(4.66666f, badgeTimes.getBadgedTime(CardType.DAY, ldt.plusDays(1)), 0.1f);
+        assertEquals(8.16666f, badgeTimes.getBadgedTime(CardType.WEEK, ldt), 0.1f);
 
-        assertEquals(7.0f, badgeTimes.getBadgedTime(CardType.WEEK, ldt), 0.0f);
     }
+
+    @Test
+    public void getSecondsBetweenDaysTest() {
+        assertEquals(3.5f, badgeTimes.getSecondsBetweenDays(1, ldt.toLocalDate()), 0.1f);
+        assertEquals(badgeTimes.getBadgedTime(CardType.DAY, ldt.plusDays(1)), badgeTimes.getSecondsBetweenDays(1, ldt.plusDays(1).toLocalDate()), 0.0f);
+        //assertEquals(3.5f, badgeTimes.getSecondsBetweenDays(1, ldt.toLocalDate()), 0.1f);
+    }
+
+    @Test
+    public void removeWithValueTest() {
+        badgeTimes.removeWithValue(null);
+        getTimeStampsInDateTests();
+        int beforeDeletion = badgeTimes.getTimeStampsInDate(ldt.toLocalDate()).size();
+        badgeTimes.removeWithValue(ldt);
+        assertEquals(beforeDeletion-1, badgeTimes.getTimeStampsInDate(ldt.toLocalDate()).size());
+
+    }
+
 }

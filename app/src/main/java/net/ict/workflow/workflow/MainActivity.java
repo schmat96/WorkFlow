@@ -38,6 +38,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -76,6 +77,7 @@ public class  MainActivity extends AppCompatActivity {
     private CardAdapter cardAdapter;
 
     private Cards[] cards;
+    private LocalDateTime wrongTime = null;
 
 
     @Override
@@ -91,6 +93,7 @@ public class  MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.user = new User(this);
@@ -117,6 +120,24 @@ public class  MainActivity extends AppCompatActivity {
         if(lastTime != null) {
             textView.setText(Converter.convertLocalDateTime(now));
         }
+
+        CardView cv = (CardView) findViewById(R.id.wrongTimesCard);
+        cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (wrongTime!=null) {
+                    user.setChoosenDate(wrongTime);
+                    Intent intent;
+                    intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+                    intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+
+
     }
 
     @Override
@@ -139,7 +160,17 @@ public class  MainActivity extends AppCompatActivity {
             startNFCSensor(this, nfcAdapter);
         }
         reloadCard(null);
+        checkForWrongTimes();
+    }
 
+    private void checkForWrongTimes() {
+        this.wrongTime = User.badgedTimesEven();
+        CardView cv = (CardView) findViewById(R.id.wrongTimesCard);
+        if (wrongTime==null) {
+            cv.setVisibility(View.GONE);
+        } else {
+            cv.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -288,28 +319,28 @@ public class  MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         headerMenu = menu;
-        if (loggedIn) {
-            headerMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.logged));
-        }
+
+        headerMenu.getItem(0).setVisible(false);
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_login) {
-            this.animateBackground();
-            Toast.makeText(MainActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
-            loggedIn = true;
-            if (loggedIn) {
-                headerMenu.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.logged));
+            if (this.wrongTime!=null) {
+                this.user.setChoosenDate(this.wrongTime);
+                Intent intent;
+                intent = new Intent(getApplicationContext(), BadgeTimesActivity.class);
+                intent.putExtra(INTENT_CHOOSEN_DATE, user.getChoosenDate());
+                startActivity(intent);
             }
-            return true;
+
+
+
         } else if(id == R.id.action_settings){
 
             Intent intent;
@@ -336,7 +367,7 @@ public class  MainActivity extends AppCompatActivity {
     public void reloadCard(CardType pos) {
         // TODO Position wird im Moment noch nicht bearbeitet. Die Idee ist das hier nur die Karte bearbeitet wird, welche mit der Pos reinkommt --> enums.
         // TODO MAX Wert muss hier auch noch programmatically gesetzt werden.
-        //TODO MainActivity Workaround finden um ma.getStrinf(R.string.Day) zu greiffen zu können.
+        //TODO MainActivity Workaround finden um ma.getString(R.string.Day) zu greiffen zu können.
         Log.e("User", "starting badgetimes");
         long timecurrent = System.currentTimeMillis();
         if (pos != null) {

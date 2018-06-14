@@ -38,9 +38,10 @@ public class Bar extends LinearLayout {
         TextView textLeft = (TextView) findViewById(R.id.app_bar_textleft);
         TextView textMid = (TextView) findViewById(R.id.app_bar_textmid);
         TextView textRight = (TextView) findViewById(R.id.app_bar_textright);
-
-        textMid.setText("Max: "+sum);
-        textRight.setText("Current: "+valueLeft);
+        String textSum = String.format("%.2f", sum);
+        String textValueLeft = String.format("%.2f", valueLeft);
+        textMid.setText("Max: "+textSum);
+        textRight.setText("Current: "+textValueLeft);
 
         LinearLayout linearLayoutMain = (LinearLayout) findViewById(R.id.app_bar_bar);
         LinearLayout linearLayoutLeft = (LinearLayout) findViewById(R.id.app_bar_left);

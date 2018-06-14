@@ -37,7 +37,7 @@ public class DatabaseHelperStub implements DatabaseHelperInterface {
         tree.add(LocalDateTime.of(2018,06,23,6,30));
         tree.add(LocalDateTime.of(2018,06,23,8,30));
         tree.add(LocalDateTime.of(2018,06,24,5,30));
-        tree.add(LocalDateTime.of(2018,06,24,12,30));
+        tree.add(LocalDateTime.of(2018,06,24,10,30));
         tree.add(LocalDateTime.of(2018,06,24,3,40));
         tree.add(LocalDateTime.of(2018,07,15,1,30));
         tree.add(LocalDateTime.of(2018,07,15,8,10));

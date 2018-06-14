@@ -1,10 +1,12 @@
 package net.ict.workflow.workflow.model;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.google.common.collect.TreeRangeSet;
 
 import net.ict.workflow.workflow.Converter;
+import net.ict.workflow.workflow.R;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ public class BadgeTimes {
     private static final String TAG = "MyActivity";
     private static final int WORK_DAYS = 5;
     private DatabaseHelperInterface dbh;
+    private Context context;
 
     public BadgeTimes() {
         dbh = new DatabaseHelperStub();
@@ -29,6 +32,7 @@ public class BadgeTimes {
 
     public BadgeTimes(Context context) {
         dbh = new DatabaseHelper(context);
+        this.context = context;
         times = dbh.getAllBadgeTimes();
         //times = new TreeSet<>();
     }
@@ -95,17 +99,37 @@ public class BadgeTimes {
                         pauseOrWork = true;
                         current = ldt;
                     }
-
                 }
             }
         }
-        return times/(60*60);
+        return (float) times/((float)(60*60));
+    }
+
+    public LocalDateTime badgedTimesEven() {
+        if (times.size()%2==1) {
+            return searchForUnevenTime();
+        }
+        return null;
+    }
+
+    private LocalDateTime searchForUnevenTime() {
+        LocalDateTime ldt = this.times.first();
+        while (true) {
+            ArrayList<LocalDateTime> arrLdt = getTimeStampsInDate(ldt.toLocalDate());
+            if (arrLdt.size()%2==1) {
+                return arrLdt.get(0);
+            } else {
+                ldt = this.times.higher(arrLdt.get(arrLdt.size()-1));
+            }
+        }
+
     }
 
     public float getMax(CardType type, LocalDateTime[] ldt, LocalDateTime ldtSuperbe) {
         float max = 0;
         float perDay = OwnSettings.getTimePerDay();
         Boolean[] daysToWork = OwnSettings.getWeeks();
+
         if (ldt == null) {
 
                 switch(type){
@@ -216,13 +240,25 @@ public class BadgeTimes {
 
 
     public void addBadgeTime(LocalDateTime ldt, int daysCode) {
-        times.add(ldt);
-        dbh.insertBadgeTime(ldt, OwnSettings.getTimePerDay() , daysCode);
+        if (OwnSettings.getWeeks()[ldt.getDayOfWeek().getValue()-1]) {
+            times.add(ldt);
+            dbh.insertBadgeTime(ldt, OwnSettings.getTimePerDay() , daysCode);
+        } else {
+            Context context = App.getContext();
+            CharSequence text = App.getContext().getText(R.string.errorNoNeedToWork);
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+
     }
 
     public void removeWithValue(LocalDateTime localDateTime) {
-        this.times.remove(localDateTime);
-        dbh.deleteBadgeTimes(localDateTime);
+        if (localDateTime!=null) {
+            this.times.remove(localDateTime);
+            dbh.deleteBadgeTimes(localDateTime);
+        }
+
     }
 
     public void updateBadgeTime(LocalDateTime oldTime, LocalDateTime newTime) {
@@ -307,6 +343,7 @@ public class BadgeTimes {
         } else {
             return null;
         }
+
 
     }
 }

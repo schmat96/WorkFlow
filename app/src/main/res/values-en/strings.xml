@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WorkFlow</string>
+    <string name="confirm">Confirm</string>
+    <string name="Day">Day</string>
+    <string name="wrongTime">You have wrong Times</string>
+    <string name="EnoughWorked">You worked enough</string>
+    <string name="WorkDay">You still need to work %2$s</string>
+    <string name="Month">Month</string>
+    <string name="noLastTime">No times available</string>
+    <string name="pensum">pensum</string>
+    <string name="language">language</string>
+    <string name="theme">theme</string>
+    <string name="noNFC">This Device doesn\'t support NFC!</string>
+    <string name="wrongTimeRead">Time in or out is missing!</string>
+    <string name="preferencesWorkDaysDescription">Choose on which days you are working</string>
+    <string name="WorkingMinutesDescPref">Choose how many minutes you are working a day</string>
+    <string name="Week">Week</string>
+    <string name="WorkingMinutesPref">Minuts / day</string>
+    <string name="preferencesWorkDays">Preferenced work days</string>
+    <string name="errorNoNeedToWork">You dont have to work today - change your settings</string>
+</resources>

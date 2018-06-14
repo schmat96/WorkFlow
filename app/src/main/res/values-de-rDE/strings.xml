@@ -1,22 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">WorkFlow</string>
-    <string name="Day">Day</string>
-    <string name="Week">Week</string>
-    <string name="Month">Month</string>
-    <string name="confirm">Confirm</string>
+    <string name="Day">Tag</string>
+    <string name="Week">Woche</string>
+    <string name="Month">Monat</string>
+    <string name="confirm">Bestätigen</string>
     <string name="WorkDay">Du musst heute noch %2$s Stunden arbeiten!</string>
     <string name="EnoughWorked">Du hast heute genug gearbeitet!</string>
     <string name="pensum">Pensum</string>
     <string name="language">Sprache</string>
-    <string name="theme">Theme</string>
     <string name="preferencesWorkDays">Arbeitstage</string>
     <string name="preferencesWorkDaysDescription">Wähle aus an welchen Tagen du arbeitest</string>
     <string name="WorkingMinutesPref">Wieviele Minuten pro Tag</string>
     <string name="WorkingMinutesDescPref">Wähle aus wieviele Minuten du am Tag arbeitest</string>
-    <string name="noNFC">This Device doesn\'t support NFC!</string>
-    <string name="noLastTime">no last time scanned</string>
-    <string name="wrongTimeRead">Time in or out is missing!</string>
+    <string name="noNFC">Dieses Gerät unterstützt kein NFC!</string>
+    <string name="noLastTime">Keine Zeiten vorhanden</string>
+    <string name="wrongTimeRead">Eingebadgte oder ausgebadgte Zeit fehlt!</string>
     <string name="wrongTime">Du hast falsche Zeiten</string>
+    <string name="theme">Theme</string>
     <string name="errorNoNeedToWork">Du musst heute nicht arbeiten - ändere in den Einstellungen deine Settings!</string>
-    <string name="errorDoubleTimes">Du hast versucht 2 gleiche Zeiten einzutragen. Das funktioniert leider nicht.</string>
 </resources>

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.ViewHolder> {
 
     private ArrayList<LocalDateTime> dataSet;
-    private LocalDateTime localDateTime;
     private BadgeTimesActivity badgeTimesActivity;
 
     private boolean inOrOut;
@@ -32,10 +31,17 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
 
     public BadgeTimesRecycler(@NonNull User user, BadgeTimesActivity bta) {
         dataSet = User.getTimeStampsInDate(user.getChoosenDate().toLocalDate());
-        if(getItemCount() % 2 != 0) {
+        dataSet.add(null);
+        if(getItemCount() % 2 != 1) {
             timeError = true;
+        } else {
+            timeError = false;
         }
         badgeTimesActivity = bta;
+    }
+
+    private void checkUnEven() {
+
     }
 
     public BadgeTimesRecycler(@NonNull User user) {
@@ -54,8 +60,14 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
     public void onBindViewHolder(BadgeTimesRecycler.ViewHolder holder, int position) {
         TextView tv = holder.cardView.findViewById(R.id.badgeTimeTextView);
         ImageView iv = holder.cardView.findViewById(R.id.symbol);
-        if(timeError && position == getItemCount() - 1) {
+        if(dataSet.get(position)==null) {
+            if (timeError) {
+                holder.cardView.setVisibility(View.VISIBLE);
+            } else {
+                holder.cardView.setVisibility(View.GONE);
+            }
             holder.cardView.setBackgroundResource(R.color.wrongTime);
+            iv.setImageResource(R.drawable.alert_circle);
             tv.setText(badgeTimesActivity.getResources().getString(R.string.wrongTimeRead));
             iv.clearColorFilter();
         } else {
@@ -72,14 +84,14 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
 
     @Override
     public int getItemCount() {
-        if(timeError) {
-            return dataSet.size() + 1;
-        } else {
+
+
             return dataSet.size();
-        }
+
     }
 
     public void removeAtPosition(int pos) {
+        LocalDateTime ldt = dataSet.get(pos);
         User.removeWithValue(dataSet.get(pos));
         dataSet.remove(pos);
         this.notifyItemRemoved(pos);
@@ -88,6 +100,13 @@ public class BadgeTimesRecycler extends RecyclerView.Adapter<BadgeTimesRecycler.
             badgeTimesActivity.updateCard();
         }
 
+        if(getItemCount() % 2 != 1) {
+            timeError = true;
+        } else {
+            timeError = false;
+        }
+
+        //this.notifyItemRangeChanged(dataSet.size()-1, this.getItemCount());
 
     }
 

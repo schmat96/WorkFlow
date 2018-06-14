@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorPrimaryBackground">#c2c2c2</color>
-    <color name="colorPrimaryBackgroundAnimatedTo">#d4ff00</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="wrongTime">#CD5C5C</color>
-</resources>
+
+    <resources>
+        <color name="colorPrimary">#ffffff</color>
+        <color name="colorPrimaryDark">#303F9F</color>
+        <color name="colorPrimaryBackground">#c2c2c2</color>
+        <color name="colorPrimaryBackgroundAnimatedTo">#d4ff00</color>
+        <color name="colorAccent">#FF4081</color>
+        <color name="wrongTime">#CD5C5C</color>
+
+        <color name="colorPrimaryInverse">#c2c2c2</color>
+        <color name="colorPrimaryDarkInverse">#746b6b</color>
+        <color name="colorAccentInverse">#ffffff</color>
+
+        <color name="colorWrongLight">#FF4081</color>
+        <color name="colorWrong">#404aff</color>
+    </resources>
