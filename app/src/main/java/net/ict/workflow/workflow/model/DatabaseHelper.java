@@ -16,7 +16,7 @@ import java.util.TreeSet;
 
 public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseHelperInterface {
 
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
     private static final String DATABASE_NAME = "BadgeTimes.db";
 
     // badge times statements
