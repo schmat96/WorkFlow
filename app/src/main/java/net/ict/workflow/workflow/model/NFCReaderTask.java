@@ -1,4 +1,4 @@
-package net.ict.workflow.workflow.model;
+/*package net.ict.workflow.workflow.model;
 
 import android.app.Activity;
 import android.nfc.NdefMessage;
@@ -70,4 +70,4 @@ public class NFCReaderTask extends AsyncTask<Tag, Void, String> {
             Toast.makeText(activity, "Read content" + result, Toast.LENGTH_LONG);
         }
     }
-}
+}*/

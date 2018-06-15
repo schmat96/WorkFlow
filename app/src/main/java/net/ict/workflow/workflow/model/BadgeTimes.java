@@ -160,18 +160,6 @@ public class BadgeTimes {
             }
 
         }
-        /*
-        switch(type){
-            case DAY:
-                return max;
-            case WEEK:
-                return max * workingDays();
-            case MONTH:
-                return max * getDaysOfMonth(ldtSuperbe);
-            default:
-                return max;
-        }
-        */
         return max;
     }
 
@@ -187,20 +175,6 @@ public class BadgeTimes {
     }
 
     private int getDaysOfMonth(LocalDateTime ldt, Boolean[] daysToWork){
-        //TODO implement something like this:
-        // although realistically this method should return
-        // the number of workdays per month -> highly variable
-        // implement some calendar function of some sorts
-        /*
-        date = ldt;
-        int day = date.getDay();
-        int remainingDays = 31 - day;
-        localdatetime refDate = 2000;
-        while (refDate.getMonth() != date.getMonth() && year.something){
-            refDate = date.addDays(remainingDays);
-            remainingDays--;
-        }
-         */
         int count = 0;
         LocalDateTime local = ldt.withDayOfMonth(1);
         LocalDateTime local2 = local;
@@ -213,28 +187,6 @@ public class BadgeTimes {
         }
 
         return count;
-
-        /*
-        switch(ldt.getMonth()){
-            case JANUARY:
-            case MARCH:
-            case MAY:
-            case JULY:
-            case AUGUST:
-            case OCTOBER:
-            case DECEMBER:
-                return 31;
-            case APRIL:
-            case JUNE:
-            case SEPTEMBER:
-            case NOVEMBER:
-                return 30;
-            case FEBRUARY:
-                return 28;
-                default:
-                    return 31;
-        }
-        */
     }
 
 

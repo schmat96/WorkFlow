@@ -1,7 +1,5 @@
 package net.ict.workflow.workflow.model;
 
-import android.content.Context;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

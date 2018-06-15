@@ -62,7 +62,7 @@ import java.util.List;
 public class  MainActivity extends AppCompatActivity {
 
     public static final String INTENT_CHOOSEN_DATE = "CHOOSEN_DATE";
-    private static String TAG = "MainActivity";
+    //private static String TAG = "MainActivity";
 
     User user;
     Boolean loggedIn = false;
@@ -94,15 +94,10 @@ public class  MainActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         this.user = new User(this);
         if (this.user.getID()!=0) {
             loggedIn = true;
         }
-
-        //user.addBadgeTime(LocalDateTime.now());
-        //getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -201,32 +196,7 @@ public class  MainActivity extends AppCompatActivity {
             user.addBadgeTime(now, OwnSettings.getDaysCode());
             TextView textView = findViewById(R.id.hinweis);
             textView.setText(Converter.convertLocalDateTime(now));
-
-
-
-
             animateBackground();
-
-            /*
-            Parcelable[] rawMsg = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES);
-            NdefMessage[] msg;
-
-            if(rawMsg != null){
-                msg = new NdefMessage[rawMsg.length];
-                for(int i = 0; i < rawMsg.length; i++) {
-                    msg[i] = (NdefMessage) rawMsg[i];
-                }
-            } else {
-                byte[] empty = new byte[0];
-                byte[] id = intent.getByteArrayExtra(NfcAdapter.EXTRA_ID);
-                Tag tag =  intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-                byte[] payload = NfcReader.dumpTagData(tag).getBytes();
-                NdefRecord record = new NdefRecord(NdefRecord.TNF_UNKNOWN, empty, id, payload);
-                NdefMessage message = new NdefMessage(new NdefRecord[]{record});
-                msg = new NdefMessage[] {message};
-            }
-            displayMessages(msg);
-            */
         }
     }
 
@@ -259,41 +229,11 @@ public class  MainActivity extends AppCompatActivity {
 
     }
 
-
-/*
-    private void displayMessages(NdefMessage[] msg){
-        if(msg == null || msg.length == 0){
-            return;
-        }
-
-        StringBuilder builder = new StringBuilder();
-        List<ParsedNdefRecord> records = NdefMessageParser.parse(msg[0]);
-        final int size = records.size();
-
-        for (int i = 0; i < size; i++){
-            ParsedNdefRecord record = records.get(i);
-            String string = record.str();
-            builder.append(string).append("\n");
-        }
-        //TextView text = findViewById(R.id.hinweis);
-        //text.setText(builder.toString());
-        //text.invalidate();
-        Intent intent = new Intent(getApplicationContext(), NfcDetails.class);
-        intent.putExtra("info", builder.toString());
-        startActivity(intent);
-        Log.e("finalMessage", builder.toString());
-        //Log.v("textView", text.getText().toString());
-    }*/
-
     private void startNFCSensor(Activity activity, NfcAdapter adapter) {
         Intent intent = new Intent(activity.getApplicationContext(), activity.getClass());
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        Log.e("NFCDemo", "intent set");
         PendingIntent pendingIntent = PendingIntent.getActivity(activity.getApplicationContext(), 0, intent, 0);
-
-
-        TextView textview = (TextView) findViewById(R.id.hinweis);
 
         IntentFilter[] filters = new IntentFilter[1];
         String[][] techList = new String[][]{};
@@ -400,10 +340,6 @@ public class  MainActivity extends AppCompatActivity {
         cardAdapter = new CardAdapter(this.getCards(), this);
         recyclerView.setAdapter(cardAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        //SwipeController swipeController = new SwipeController(cardAdapter);
-        //ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-        //itemTouchhelper.attachToRecyclerView(recyclerView);
 
         snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
