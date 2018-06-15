@@ -14,5 +14,5 @@
         android:summary="@string/WorkingMinutesDescPref"
         android:numeric="integer"
         android:maxLength="3"
-        android:defaultValue="500" />
+        android:defaultValue="504" />
 </PreferenceScreen>

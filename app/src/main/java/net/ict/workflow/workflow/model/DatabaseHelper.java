@@ -47,6 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements DatabaseHelperIn
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_BADGETIMES);
         db.execSQL(CREATE_TABLE_HOURS_DAY);
+        this.insertHoursPerDay(8.4f);
     }
 
     @Override

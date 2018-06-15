@@ -55,7 +55,7 @@ public class Bar extends LinearLayout {
 
         Boolean left = true;
 
-        if (sum > valueLeft) {
+        if (valueLeft > sum) {
             while (valueLeft>sum) {
                 valueLeft = valueLeft - sum;
                 if (left) {

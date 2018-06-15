@@ -61,21 +61,33 @@ import java.util.List;
 
 public class  MainActivity extends AppCompatActivity {
 
-    public static final String INTENT_CHOOSEN_DATE = "CHOOSEN_DATE";
-    //private static String TAG = "MainActivity";
+    protected static final String INTENT_CHOOSEN_DATE = "CHOOSEN_DATE";
 
     User user;
     Boolean loggedIn = false;
     Menu headerMenu;
     Toolbar toolbar;
 
-
+    /*
+    The NFC Adapter for nfc scans.
+     */
     private NfcAdapter nfcAdapter;
     private TextView textView;
+
+    /*
+
+     */
     private RecyclerView recyclerView;
+
+    /*
+    Used for "snapping" the cards. So that there is only 1 card visible at a time.
+     */
     private SnapHelper snapHelper;
     private CardAdapter cardAdapter;
 
+    /*
+    sad
+     */
     private Cards[] cards;
     private LocalDateTime wrongTime = null;
 
@@ -305,9 +317,6 @@ public class  MainActivity extends AppCompatActivity {
     }
 
     public void reloadCard(CardType pos) {
-        // TODO Position wird im Moment noch nicht bearbeitet. Die Idee ist das hier nur die Karte bearbeitet wird, welche mit der Pos reinkommt --> enums.
-        // TODO MAX Wert muss hier auch noch programmatically gesetzt werden.
-        //TODO MainActivity Workaround finden um ma.getString(R.string.Day) zu greiffen zu können.
         Log.e("User", "starting badgetimes");
         long timecurrent = System.currentTimeMillis();
         if (pos != null) {
