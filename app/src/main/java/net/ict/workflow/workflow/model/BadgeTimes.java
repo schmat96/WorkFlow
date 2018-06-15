@@ -215,6 +215,8 @@ public class BadgeTimes {
 
     public void updateBadgeTime(LocalDateTime oldTime, LocalDateTime newTime) {
         dbh.updateBadgeTimes(oldTime, newTime);
+        this.times.remove(oldTime);
+        this.times.add(newTime);
     }
 
     public float getBadgedTime(CardType ct, LocalDateTime ldt) {
